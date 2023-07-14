@@ -1,5 +1,5 @@
-import protobuf from 'protobufjs';
-import zmq from 'zeromq';
+import protobuf, {rpc} from 'protobufjs';
+import * as zmq from 'zeromq';
 
 
 /* 
@@ -22,7 +22,7 @@ class RpcChannel {
         this.proto_root = proto_root;
     }
 
-    createRpcRequest(method: protobuf.Method, requestData: Uint8Array) {
+    createRpcRequest(method: protobuf.Method, requestData: Uint8Array): protobuf.Message{
       if (method.parent === null) {
         throw new Error("Method parent is null. Could not find requested service.\
          The requested service method may not have been called correctly or was \
@@ -40,7 +40,7 @@ class RpcChannel {
       return rpc_request;
     }
 
-    async sendRpcRequest(rpc_request): Promise<void>{
+    async sendRpcRequest(rpc_request: protobuf.Message<{}>): Promise<void>{
       // serialize rpc request
       const rpc_request_type = this.proto_root.lookupType("rpc.RpcRequest");
       const rpc_request_buff = rpc_request_type.encode(rpc_request).finish();
@@ -48,13 +48,17 @@ class RpcChannel {
       await this.socket.send(rpc_request_buff);
     }
 
-    async getRpcResponse(){
+    async getRpcResponse(): Promise<Uint8Array>{
       // get rpc response from server
       let [rpc_response_data] = await this.socket.receive();
       return rpc_response_data;
     }  
 
-    async callMethod(method: protobuf.Method,requestData: Uint8Array, callback: protobuf.RPCImplCallback){
+    async callMethod(
+      method: protobuf.Method,
+      requestData: Uint8Array,
+      callback: protobuf.RPCImplCallback
+    ):Promise<void>{
       try {
         // create rpc request
         const rpc_request = this.createRpcRequest(method, requestData);
@@ -63,8 +67,9 @@ class RpcChannel {
         // wait for response from server
         const rpc_response = await this.getRpcResponse();
         callback(null, rpc_response);
-      } catch (error) {
-        callback(error);
+      } 
+      catch (error) {
+        callback(error as Error);
       }
     }
 }
