@@ -1,2 +1,8 @@
 # node modules
 node_modules
+
+# linting
+.eslintrc.json
+
+# sandboxing
+test_client.js
