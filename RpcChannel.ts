@@ -1,4 +1,4 @@
-import protobuf, {rpc} from 'protobufjs';
+import * as protobuf from 'protobufjs';
 import * as zmq from 'zeromq';
 
 
@@ -12,14 +12,14 @@ NOTE: protobufjs requries that:
 
 class RpcChannel {
     socket_endpoint: string;
-    proto_root: protobuf.Root;
     socket: zmq.Request;
+    rpc_request_type: protobuf.Type;
 
     constructor(socket_endpoint: string, proto_root: protobuf.Root){
         this.socket_endpoint = socket_endpoint;
         this.socket = new zmq.Request();
         this.socket.connect(this.socket_endpoint);
-        this.proto_root = proto_root;
+        this.rpc_request_type = proto_root.lookupType("rpc.RpcRequest")
     }
 
     createRpcRequest(method: protobuf.Method, requestData: Uint8Array): protobuf.Message{
@@ -28,7 +28,7 @@ class RpcChannel {
          The requested service method may not have been called correctly or was \
          incorectly initialized.");
       }
-      let rpc_request_type = this.proto_root.lookupType("rpc.RpcRequest");
+      //let rpc_request_type = this.proto_root.lookupType("rpc.RpcRequest");
       // wrap client message 
       let rpc_request_data = {
         serviceName: method.parent.name,
@@ -36,14 +36,14 @@ class RpcChannel {
         requestProto: requestData,
       };
       // create rpc message
-      const rpc_request = rpc_request_type.create(rpc_request_data);
+      const rpc_request = this.rpc_request_type.create(rpc_request_data);
       return rpc_request;
     }
 
     async sendRpcRequest(rpc_request: protobuf.Message<{}>): Promise<void>{
       // serialize rpc request
-      const rpc_request_type = this.proto_root.lookupType("rpc.RpcRequest");
-      const rpc_request_buff = rpc_request_type.encode(rpc_request).finish();
+      //const rpc_request_type = this.proto_root.lookupType("rpc.RpcRequest");
+      const rpc_request_buff = this.rpc_request_type.encode(rpc_request).finish();
       // send over socket
       await this.socket.send(rpc_request_buff);
     }
