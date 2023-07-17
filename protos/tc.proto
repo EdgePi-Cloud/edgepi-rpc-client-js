@@ -1,0 +1,250 @@
+/* Protouf file for the TC SDK module */
+
+syntax = "proto3";
+
+package EdgePiRPC_TC;
+option py_generic_services = true;
+
+service TcService {
+    rpc set_config(Config) returns (SuccessMsg);
+    rpc single_sample(EmptyMsg) returns (TempReading);
+    rpc read_temperatures(EmptyMsg) returns (TempReading);
+    rpc clear_faults(EmptyMsg) returns (SuccessMsg);
+    rpc read_faults(FilterFaults) returns (Faults);
+    rpc reset_registers(EmptyMsg) returns (SuccessMsg);
+    rpc overwrite_cold_junction_temp(CJtemp) returns (SuccessMsg);
+}
+
+message EmptyMsg {
+    // Empty message
+}
+
+message SuccessMsg {
+   optional string content = 1;
+}
+
+message TempReading {
+    optional float cj_temp = 1;
+    optional float lin_temp = 2;
+}
+
+message CJtemp {
+    optional int32 cj_temp = 1;
+    optional DecBits6 cj_temp_decimals = 2;
+}
+
+message FilterFaults {
+    optional bool filter_at_fault = 1;
+}
+
+message Faults {
+    repeated Fault fault = 1;
+
+    message Fault{
+        bool at_fault = 2;
+        string err_msg = 3;
+        string fault_type = 4;
+        bool is_masked = 5;
+    }
+}
+
+message Config {
+    repeated ConfArg conf_arg = 1;
+
+    message ConfArg{
+        oneof enum{
+            ConvMode conversion_mode = 2;
+            OpenCircuitMode open_circuit_mode = 3;
+            CJMode cold_junction_mode = 4;
+            FaultMode fault_mode = 5;
+            NoiseFilterMode noise_filter_mode = 6;
+            AvgMode average_mode = 7;
+            TCType tc_type = 8;
+            VoltageMode voltage_mode = 9;
+            CJHighMask cj_high_mask = 10;
+            CJLowMask cj_low_mask = 11;
+            TCHighMask tc_high_mask = 12;
+            TCLowMask tc_low_mask = 13;
+            OvuvMask ovuv_mask = 14;
+            OpenMask open_mask = 15;
+            int32 cj_high_threshold = 16;
+            int32 cj_low_threshold = 17;
+            int32 lt_high_threshold = 18;
+            DecBits4 lt_high_threshold_decimals = 19;
+            int32 lt_low_threshold = 20;
+            DecBits4 lt_low_threshold_decimals = 21;
+            int32 cj_offset = 22;
+            DecBits4 cj_offset_decimals = 23;
+            int32 cj_temp = 24;
+            DecBits6 cj_temp_decimals = 25;
+        }
+    }
+}
+
+enum ConvMode{
+    SINGLE = 0;
+    AUTO = 1;
+}
+
+enum OpenCircuitMode{
+    DISABLED = 0;
+    LOW_INPUT_IMPEDANCE = 1;
+    MED_INPUT_IMPEDANCE = 2;
+    HIGH_INPUT_IMPEDANCE = 3;
+}
+
+enum CJMode{
+    ENABLE = 0;
+    DISABLE = 1;
+}
+
+enum FaultMode{
+    COMPARATOR = 0;
+    INTERRUPT = 1;
+}
+
+enum NoiseFilterMode{
+    HZ_60 = 0;
+    HZ_50 = 1;
+}
+
+enum AvgMode{
+    AVG_1 = 0;
+    AVG_2 = 1;
+    AVG_4 = 2;
+    AVG_8 = 3;
+    AVG_16 = 4;
+}
+
+enum TCType{
+    TYPE_B = 0;
+    TYPE_E = 1;
+    TYPE_J = 2;
+    TYPE_K = 3;
+    TYPE_N = 4;
+    TYPE_R = 5;
+    TYPE_S = 6;
+    TYPE_T = 7;
+}
+
+enum VoltageMode{
+    GAIN_8 = 0;
+    GAIN_32 = 1;
+}
+
+enum CJHighMask{
+    CJHIGH_MASK_ON = 0;
+    CJHIGH_MASK_OFF = 1;
+}
+
+enum CJLowMask{
+    CJLOW_MASK_ON = 0;
+    CJLOW_MASK_OFF = 1;
+}
+
+enum TCHighMask{
+    TCHIGH_MASK_ON = 0;
+    TCHIGH_MASK_OFF = 1;
+}
+
+enum TCLowMask{
+    TCLOW_MASK_ON = 0;
+    TCLOW_MASK_OFF = 1;
+}
+
+enum OvuvMask{
+    OVUV_MASK_ON = 0;
+    OVUV_MASK_OFF = 1;
+}
+
+enum OpenMask{
+    
+    OPEN_MASK_ON = 0;
+    OPEN_MASK_OFF = 1;
+}
+
+enum DecBits4{
+    P0 = 0;
+    P0_5 = 1;
+    P0_75 = 2;
+    P0_875 = 3;
+    P0_9375 = 4;
+    P0_4375 = 5;
+    P0_1875 = 6;
+    P0_0625 = 7;
+    P0_5625 = 8;
+    P0_8125 = 9;
+    P0_6875 = 10;
+    P0_25 = 11;
+    P0_125 = 12;
+    P0_625 = 13;
+    P0_3125 = 14;
+    P0_375 = 15;
+}
+
+enum DecBits6{
+    P0_ = 0;
+    P0_015625 = 1;
+    P0_03125 = 2;
+    P0_046875 = 3;
+    P0_0625_ = 4;
+    P0_078125 = 5;
+    P0_09375 = 6;
+    P0_109375 = 7;
+    P0_125_ = 8;
+    P0_140625 = 9;
+    P0_15625 = 10;
+    P0_171875 = 11;
+    P0_1875_ = 12;
+    P0_203125 = 13;
+    P0_21875 = 14;
+    P0_234375 = 15;
+    P0_25_ = 16;
+    P0_265625 = 17;
+    P0_28125 = 18;
+    P0_296875 = 19;
+    P0_3125_ = 20;
+    P0_328125 = 21;
+    P0_34375 = 22;
+    P0_359375 = 23;
+    P0_375_ = 24;
+    P0_390625 = 25;
+    P0_40625 = 26;
+    P0_421875 = 27;
+    P0_4375_ = 28;
+    P0_453125 = 29;
+    P0_46875 = 30;
+    P0_484375 = 31;
+    P0_5_ = 32;
+    P0_515625 = 33;
+    P0_53125 = 34;
+    P0_546875 = 35;
+    P0_5625_ = 36;
+    P0_578125 = 37;
+    P0_59375 = 38;
+    P0_609375 = 39;
+    P0_625_ = 40;
+    P0_640625 = 41;
+    P0_65625 = 42;
+    P0_671875 = 43;
+    P0_6875_ = 44;
+    P0_703125 = 45;
+    P0_71875 = 46;
+    P0_734375 = 47;
+    P0_75_ = 48;
+    P0_765625 = 49;
+    P0_78125 = 50;
+    P0_796875 = 51;
+    P0_8125_ = 52;
+    P0_828125 = 53;
+    P0_84375 = 54;
+    P0_859375 = 55;
+    P0_875_ = 56;
+    P0_890625 = 57;
+    P0_90625 = 58;
+    P0_921875 = 59;
+    P0_9375_ = 60;
+    P0_953125 = 61;
+    P0_96875 = 62;
+    P0_984375 = 63;
+}
