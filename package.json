@@ -18,6 +18,9 @@
     "typescript": "^5.1.6"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint --max-warnings=0 .",
+    "lint:fix": "eslint --max-warnings=0 --fix ."
   }
   }
