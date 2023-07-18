@@ -1,5 +1,5 @@
 import * as protobuf from 'protobufjs';
-import { RpcChannel } from '../../RpcChannel';
+import { RpcChannel } from '../../src/rpcChannel/RpcChannelnnel/RpcChannel';
 
 
 describe('RpcChannel', () => {
@@ -46,7 +46,7 @@ describe('RpcChannel', () => {
       const methodName = 'SomeMethod';
       const requestData = new Uint8Array();
       
-      const createSpy = jest.spyOn(rpcChannel.rpc_request_type, 'create').mockReturnValueOnce({} as protobuf.Message);
+      const createSpy = jest.spyOn(rpcChannel.rpcRequestType, 'create').mockReturnValueOnce({} as protobuf.Message);
 
       const rpcRequest = rpcChannel.createRpcRequest(
         { parent: { name: serviceName }, name: methodName } as protobuf.Method,
@@ -68,7 +68,7 @@ describe('RpcChannel', () => {
   
         await rpcChannel.sendRpcRequest(rpcRequest);
   
-        expect(rpcChannel.rpc_request_type.encode).toHaveBeenCalledWith(rpcRequest);
+        expect(rpcChannel.rpcRequestType.encode).toHaveBeenCalledWith(rpcRequest);
         expect(sendSpy).toHaveBeenCalledWith({});
       });
     });
