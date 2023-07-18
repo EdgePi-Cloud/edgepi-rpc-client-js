@@ -1,6 +1,6 @@
 import * as protobuf from 'protobufjs'
 import { RpcChannel } from '../../rpcChannel/RpcChannel'
-import { serviceRequest } from '../../types/types'
+import type { serverResponse, serviceRequest } from '../../types/types'
 
 const SOCKETENDPOINT = 'ipc:///tmp/edgepi.pipe' // Temporary
 
@@ -12,13 +12,13 @@ class TcService {
 
   constructor () {
     // find better way to load these paths
-    this.rpcProtoRoot = protobuf.loadSync('../../protos/rpc.proto')
-    this.serviceProtoRoot = protobuf.loadSync('../../protos/tc.proto')
+    this.rpcProtoRoot = protobuf.loadSync('../../../../src/protos/rpc.proto')
+    this.serviceProtoRoot = protobuf.loadSync('../../../../src/protos/tc.proto')
     this.serviceName = 'TcService'
     this.rpcChannel = new RpcChannel(SOCKETENDPOINT, this.rpcProtoRoot)
   }
 
-  async singleSample () {
+  async singleSample (): Promise<serverResponse> {
     // Get types
     const requestType = this.serviceProtoRoot.lookupType('EdgePiRPC_TC.EmptyMsg')
     const responseType = this.serviceProtoRoot.lookupType('EdgePiRPC_TC.TempReading')
@@ -30,7 +30,7 @@ class TcService {
     }
 
     // Call method through rpc
-    let response = await this.rpcChannel.callMethod(serviceReq, requestType, responseType)
+    const response = await this.rpcChannel.callMethod(serviceReq, requestType, responseType)
 
     return response
   }
@@ -38,6 +38,6 @@ class TcService {
 
 const t = new TcService()
 
-t.singleSample()
+console.log(t.singleSample())
 
 export { TcService }
