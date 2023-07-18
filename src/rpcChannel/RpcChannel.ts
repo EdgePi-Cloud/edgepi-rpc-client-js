@@ -8,18 +8,18 @@ class RpcChannel {
   rpcRequestType: protobuf.Type
   rpcResponseType: protobuf.Type
 
-  constructor (socketEndPoint: string, protoRoot: protobuf.Root) {
+  constructor (socketEndPoint: string, rpcProtoRoot: protobuf.Root) {
     this.socket_endpoint = socketEndPoint
     this.socket = new zmq.Request()
     this.socket.connect(this.socket_endpoint)
-    this.rpcRequestType = protoRoot.lookupType('rpc.RpcRequest')
-    this.rpcResponseType = protoRoot.lookupType('rpc.RpcResponse')
+    this.rpcRequestType = rpcProtoRoot.lookupType('rpc.RpcRequest')
+    this.rpcResponseType = rpcProtoRoot.lookupType('rpc.RpcResponse')
   }
 
   createRpcRequest (serviceReq: serviceRequest, requestType: protobuf.Type): RpcRequest {
     // Serialize request message
     const request = requestType.create(serviceReq.requestMsg)
-    const requestProto = requestType.encode(request)
+    const requestProto = requestType.encode(request).finish()
     // Should catch some errors here
 
     // Wrap request in RpcRequest message. Create rpc request
@@ -58,12 +58,12 @@ class RpcChannel {
       ? `Error ${rpcResponse.errorCode}: ${rpcResponse.errorMsg}`
       : undefined
 
-    const responseObj = {
+    const serverResponse = {
       error: errorMsg,
       content: serverResponseMessage
     }
 
-    return responseObj
+    return serverResponse
   }
 
   async callMethod (serviceReq: serviceRequest, requestType: protobuf.Type, responseType: protobuf.Type): Promise<object> {
