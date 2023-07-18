@@ -12,63 +12,76 @@ NOTE: protobufjs requries that:
 class RpcChannel {
   socket_endpoint: string
   socket: zmq.Request
-  rpc_request_type: protobuf.Type
+  rpcRequestType: protobuf.Type
+  rpcResponseType: protobuf.Type
 
   constructor (socketEndPoint: string, protoRoot: protobuf.Root) {
     this.socket_endpoint = socketEndPoint
     this.socket = new zmq.Request()
     this.socket.connect(this.socket_endpoint)
-    this.rpc_request_type = protoRoot.lookupType('rpc.RpcRequest')
+    this.rpcRequestType = protoRoot.lookupType('rpc.RpcRequest')
+    this.rpcResponseType = protoRoot.lookupType('rpc.RpcResponse')
   }
 
-  createRpcRequest (method: protobuf.Method, requestData: Uint8Array): protobuf.Message {
-    if (method.parent === null) {
-      throw new Error('Method parent is null. Could not find requested service.\
-        The requested service method may not have been called correctly or was \
-        incorectly initialized.')
-    }
-    // let rpc_request_type = this.proto_root.lookupType("rpc.RpcRequest");
-    // wrap client message
-    const rpcRequestData = {
-      serviceName: method.parent.name,
-      methodName: method.name,
-      requestProto: requestData,
+  createRpcRequest (serviceRequest, requestType): protobuf.Message {
+    const serviceName = serviceRequest.serviceName
+    const methodName = serviceRequest.methodName
+    const requestProto = requestType.encode(serviceRequest.requestMsg)
+    // Should catch some errors here
+
+    const rpcRequestProps = {
+      serviceName,
+      methodName,
+      requestProto
     }
     // create rpc message
-    const rpcRequest = this.rpc_request_type.create(rpcRequestData)
+    const rpcRequest = this.rpcRequestType.create(rpcRequestProps)
     return rpcRequest
   }
 
   async sendRpcRequest (rpcRequest: protobuf.Message): Promise<void> {
     // serialize rpc request
     // const rpc_request_type = this.proto_root.lookupType("rpc.RpcRequest");
-    const rpcRequestBuff = this.rpc_request_type.encode(rpcRequest).finish()
+    const rpcRequestBuff = this.rpcRequestType.encode(rpcRequest).finish()
     // send over socket
     await this.socket.send(rpcRequestBuff)
   }
 
-  async getRpcResponse (): Promise<Uint8Array> {
+  async getRpcResponse (): Promise<protobuf.Message> {
     // get rpc response from server
     const [rpcResponseData] = await this.socket.receive()
-    return rpcResponseData
+    // decode
+    const rpcResponse = this.rpcResponseType.decode(rpcResponseData)
+    return rpcResponse
   }
 
-  async callMethod (
-    method: protobuf.Method,
-    requestData: Uint8Array,
-    callback: protobuf.RPCImplCallback
-  ): Promise<void> {
-    try {
-      // create rpc request
-      const rpcRequest = this.createRpcRequest(method, requestData)
-      // send rpc service request over socket
-      await this.sendRpcRequest(rpcRequest)
-      // wait for response from server
-      const rpcResponse = await this.getRpcResponse()
-      callback(null, rpcResponse)
-    } catch (error: any) {
-      callback(error)
+  createServerResponse (responseType: protobuf.Type, rpcResponse: protobuf.Message): object {
+    // deserialize server response
+    const serverResponseData = rpcResponse.responseProto
+    const serverResponse = responseType.decode(serverResponseData)
+    // populate response object
+    const errorMsg = (rpcResponse.errorCode !== undefined)
+      ? `Error ${rpcResponse.errorCode}: ${rpcResponse.errorMsg}` : null
+
+    const responseObj = {
+      error: errorMsg,
+      content: serverResponse
     }
+
+    return responseObj
+  }
+
+  async callMethod (serviceRequest, requestType: protobuf.Type, responseType: protobuf.Type): Promise<object> {
+    // create rpc request
+    const rpcRequest = this.createRpcRequest(serviceRequest, requestType)
+    // send rpc service request over socket
+    await this.sendRpcRequest(rpcRequest)
+    // wait for rpc response from server
+    const rpcResponse = await this.getRpcResponse()
+    // create a server response
+    const serverResponse = this.createServerResponse(responseType, rpcResponse)
+    // finish
+    return serverResponse
   }
 }
 
