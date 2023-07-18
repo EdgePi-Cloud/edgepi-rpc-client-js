@@ -66,7 +66,11 @@ class RpcChannel {
     return serverResponse
   }
 
-  async callMethod (serviceReq: serviceRequest, requestType: protobuf.Type, responseType: protobuf.Type): Promise<object> {
+  async callMethod (
+    serviceReq: serviceRequest,
+    requestType: protobuf.Type,
+    responseType: protobuf.Type
+  ): Promise<serverResponse> {
     // create rpc request
     const rpcRequest = this.createRpcRequest(serviceReq, requestType)
     // send rpc service request over socket
