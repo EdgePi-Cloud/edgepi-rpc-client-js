@@ -3,3 +3,6 @@ node_modules
 
 # sandboxing
 test_client.js
+
+# js files
+dist/
