@@ -54,7 +54,7 @@ class RpcChannel {
       ? responseType.decode(rpcResponse.responseProto)
       : undefined
     // populate response object
-    const errorMsg = (rpcResponse.errorCode !== undefined && rpcResponse.errorMsg !== undefined)
+    const errorMsg = (rpcResponse.errorCode !== 0 && rpcResponse.errorMsg !== null)
       ? `Error ${rpcResponse.errorCode}: ${rpcResponse.errorMsg}`
       : undefined
 

@@ -19,10 +19,10 @@ export interface RpcRequest extends protobuf.Message {
 }
 
 export interface RpcResponse extends protobuf.Message {
-  serviceName?: string
-  methodName?: string
+  serviceName?: string | null
+  methodName?: string | null
   responseProto?: Uint8Array | protobuf.Reader
-  errorMsg?: string
+  errorMsg?: string | null
   errorCode?: number
 }
 
