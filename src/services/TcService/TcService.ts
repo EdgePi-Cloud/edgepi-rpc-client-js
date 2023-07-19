@@ -18,26 +18,50 @@ class TcService {
     this.rpcChannel = new RpcChannel(SOCKETENDPOINT, this.rpcProtoRoot)
   }
 
-  async singleSample (): Promise<serverResponse> {
+  private async callTempReadMethod (methodName: string): Promise<serverResponse> {
     // Get types
     const requestType = this.serviceProtoRoot.lookupType('EdgePiRPC_TC.EmptyMsg')
     const responseType = this.serviceProtoRoot.lookupType('EdgePiRPC_TC.TempReading')
     // Create request
     const serviceReq: serviceRequest = {
       serviceName: this.serviceName,
-      methodName: 'single_sample',
+      methodName,
       requestMsg: {/* Empty Msg */}
     }
 
     // Call method through rpc
     const response = await this.rpcChannel.callMethod(serviceReq, requestType, responseType)
 
+    if (response.error !== undefined) {
+      throw Error(response.error)
+    }
     return response
+  }
+
+  async singleSample (): Promise<serverResponse> {
+    return await this.callTempReadMethod('single_sample')
+  }
+
+  async read_temperatures (): Promise<serverResponse> {
+    return await this.callTempReadMethod('read_temperatures')
   }
 }
 
 const t = new TcService()
+t.singleSample()
+  .then((response) => {
+    console.log(response) // Handle the response data here
+  })
+  .catch((error) => {
+    console.error(error) // Handle any potential errors here
+  })
 
-console.log(t.singleSample())
+t.read_temperatures()
+  .then((response) => {
+    console.log(response) // Handle the response data here
+  })
+  .catch((error) => {
+    console.error(error) // Handle any potential errors here
+  })
 
 export { TcService }
