@@ -108,7 +108,7 @@ describe('RpcChannel', () => {
       const mockRpcResponse: RpcResponse = {
         responseProto: Buffer.from('protobuf_response_data'),
         errorCode: undefined,
-        errorMsg: undefined
+        errorMsg: null
       } as unknown as RpcResponse
 
       const mockServerResponseMsg = { someField: 'someValue' } as unknown as protobuf.Message

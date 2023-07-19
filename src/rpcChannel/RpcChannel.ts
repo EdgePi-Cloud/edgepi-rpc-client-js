@@ -50,11 +50,13 @@ class RpcChannel {
 
   createServerResponse (responseType: protobuf.Type, rpcResponse: RpcResponse): serverResponse {
     // deserialize server response
-    const serverResponseMessage = (rpcResponse.responseProto !== undefined)
+    const serverResponseMessage =
+    (rpcResponse.responseProto !== undefined && rpcResponse.responseProto !== null)
       ? responseType.decode(rpcResponse.responseProto)
       : undefined
     // populate response object
-    const errorMsg = (rpcResponse.errorCode !== 0 && rpcResponse.errorMsg !== null)
+    const errorMsg = (rpcResponse.errorMsg !== undefined && rpcResponse.errorMsg !== null &&
+      rpcResponse.errorCode !== undefined)
       ? `Error ${rpcResponse.errorCode}: ${rpcResponse.errorMsg}`
       : undefined
 
