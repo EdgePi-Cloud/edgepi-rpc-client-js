@@ -1,6 +1,7 @@
 import * as protobuf from 'protobufjs'
 import { RpcChannel } from '../../rpcChannel/RpcChannel'
-import type { serverResponse, serviceRequest } from '../../types/types'
+import type { serverResponse, serviceRequest } from '../../types/ReqRepTypes'
+import type { TempReading } from '../../types/tcTypes'
 
 const SOCKETENDPOINT = 'ipc:///tmp/edgepi.pipe' // Temporary
 
@@ -18,7 +19,7 @@ class TcService {
     this.rpcChannel = new RpcChannel(SOCKETENDPOINT, this.rpcProtoRoot)
   }
 
-  private async callTempReadMethod (methodName: string): Promise<serverResponse> {
+  private async callTempReadMethod (methodName: string): Promise<number[]> {
     // Get types
     const requestType = this.serviceProtoRoot.lookupType('EdgePiRPC_TC.EmptyMsg')
     const responseType = this.serviceProtoRoot.lookupType('EdgePiRPC_TC.TempReading')
@@ -30,19 +31,21 @@ class TcService {
     }
 
     // Call method through rpc
-    const response = await this.rpcChannel.callMethod(serviceReq, requestType, responseType)
+    const response: serverResponse =
+      await this.rpcChannel.callMethod(serviceReq, requestType, responseType)
 
     if (response.error !== undefined) {
       throw Error(response.error)
     }
-    return response
+    const tempReading: TempReading = response.content as TempReading
+    return [tempReading.cjTemp, tempReading.linTemp]
   }
 
-  async singleSample (): Promise<serverResponse> {
+  async singleSample (): Promise<number[]> {
     return await this.callTempReadMethod('single_sample')
   }
 
-  async readTemperatures (): Promise<serverResponse> {
+  async readTemperatures (): Promise<number[]> {
     return await this.callTempReadMethod('read_temperatures')
   }
 }

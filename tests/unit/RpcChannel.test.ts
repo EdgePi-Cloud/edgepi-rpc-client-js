@@ -1,7 +1,7 @@
 // Import required modules and types
 import * as protobuf from 'protobufjs'
 import { RpcChannel } from '../../src/rpcChannel/RpcChannel'
-import type { RpcResponse, serviceRequest } from '../../src/types/types'
+import type { RpcResponse, serviceRequest } from '../../src/types/ReqRepTypes'
 
 // Test suite for RpcChannel class
 describe('RpcChannel', () => {
