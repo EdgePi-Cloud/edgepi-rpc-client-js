@@ -13,17 +13,17 @@ export interface serviceRequest {
 }
 
 export interface RpcRequest extends protobuf.Message {
-  serviceName?: string
-  methodName?: string
-  responseProto?: Uint8Array
+  serviceName: string
+  methodName: string
+  responseProto: Uint8Array
 }
 
 export interface RpcResponse extends protobuf.Message {
-  serviceName?: string | null
-  methodName?: string | null
-  responseProto?: Uint8Array | protobuf.Reader | null
-  errorMsg?: string | null
-  errorCode?: number
+  serviceName: string | null
+  methodName: string | null
+  responseProto: Uint8Array | protobuf.Reader | null
+  errorMsg: string | null
+  errorCode: number
 }
 
 export interface serverResponse {
