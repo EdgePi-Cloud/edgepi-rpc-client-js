@@ -107,7 +107,7 @@ describe('RpcChannel', () => {
       // Arrange mocks
       const mockRpcResponse: RpcResponse = {
         responseProto: Buffer.from('protobuf_response_data'),
-        errorCode: undefined,
+        errorCode: 0,
         errorMsg: null
       } as unknown as RpcResponse
 
@@ -129,7 +129,7 @@ describe('RpcChannel', () => {
     it('should return the response object with an error message when errorCode and errorMsg are provided', () => {
       // Mock the RpcResponse object
       const mockRpcResponse: RpcResponse = {
-        responseProto: undefined,
+        responseProto: null,
         errorCode: 0,
         errorMsg: 'Bad message data'
       } as unknown as RpcResponse

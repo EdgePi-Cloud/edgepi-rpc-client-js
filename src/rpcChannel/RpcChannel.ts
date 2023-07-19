@@ -28,7 +28,7 @@ class RpcChannel {
       methodName: serviceReq.methodName,
       requestProto
     }
-    const rpcRequest = this.rpcRequestType.create(rpcRequestProps)
+    const rpcRequest: RpcRequest = this.rpcRequestType.create(rpcRequestProps) as RpcRequest
     return rpcRequest
   }
 
@@ -44,19 +44,17 @@ class RpcChannel {
     // get rpc response from server
     const [rpcResponseData] = await this.socket.receive()
     // decode
-    const rpcResponse = this.rpcResponseType.decode(rpcResponseData)
+    const rpcResponse: RpcResponse = this.rpcResponseType.decode(rpcResponseData) as RpcResponse
     return rpcResponse
   }
 
   createServerResponse (responseType: protobuf.Type, rpcResponse: RpcResponse): serverResponse {
     // deserialize server response
-    const serverResponseMessage =
-    (rpcResponse.responseProto !== undefined && rpcResponse.responseProto !== null)
+    const serverResponseMessage = (rpcResponse.responseProto !== null)
       ? responseType.decode(rpcResponse.responseProto)
       : undefined
     // populate response object
-    const errorMsg = (rpcResponse.errorMsg !== undefined && rpcResponse.errorMsg !== null &&
-      rpcResponse.errorCode !== undefined)
+    const errorMsg = (rpcResponse.errorMsg !== null)
       ? `Error ${rpcResponse.errorCode}: ${rpcResponse.errorMsg}`
       : undefined
 
