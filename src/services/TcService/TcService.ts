@@ -42,25 +42,9 @@ class TcService {
     return await this.callTempReadMethod('single_sample')
   }
 
-  async read_temperatures (): Promise<serverResponse> {
+  async readTemperatures (): Promise<serverResponse> {
     return await this.callTempReadMethod('read_temperatures')
   }
 }
-
-const t = new TcService()
-t.singleSample()
-  .then((response) => {
-    console.log(response) // Handle the response data here
-    t.read_temperatures()
-      .then((response) => {
-        console.log(response) // Handle the response data here
-      })
-      .catch((error) => {
-        console.error(error) // Handle any potential errors here
-      })
-  })
-  .catch((error) => {
-    console.error(error) // Handle any potential errors here
-  })
 
 export { TcService }
