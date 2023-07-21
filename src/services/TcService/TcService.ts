@@ -14,7 +14,7 @@ class TcService {
   constructor () {
     // find better way to load these paths
     this.rpcProtoRoot = protobuf.loadSync(`${__dirname}../../../../protos/rpc.proto`)
-    this.serviceProtoRoot = protobuf.loadSync(`${__dirname}../../../../protos/rpc.proto`)
+    this.serviceProtoRoot = protobuf.loadSync(`${__dirname}../../../../protos/tc.proto`)
     this.serviceName = 'TcService'
     this.rpcChannel = new RpcChannel(SOCKETENDPOINT, this.rpcProtoRoot)
   }
