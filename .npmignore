@@ -1,7 +1,5 @@
 # node modules
 node_modules
 
-# js files
-lib
-
+# eslint
 .eslintrc.json

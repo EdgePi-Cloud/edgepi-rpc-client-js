@@ -42,5 +42,6 @@ jobs:
         run: npm ci --prefer-offline
      
       - name: Test with jest
+      # TODO: fix sudo issue
         run: |
-          npm run test tests/integration
+          sudo npm run test tests/integration
