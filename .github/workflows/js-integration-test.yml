@@ -1,4 +1,4 @@
-# This workflow will install the edgepi-rpc server and test interaction
+# Tests this modules interaction with edgepi-rpc-server on the runner
 
 name: Integration tests
 
@@ -40,13 +40,6 @@ jobs:
 
       - name: Install dependencies
         run: npm ci --prefer-offline
-
-      - name: Install server
-        run: 
-          wget -qO - https://deb.edgepi.com/edgepi-release.gpg | sudo gpg --dearmor -o /usr/share/keyrings/edgepi-release.gpg
-          sudo tee /etc/apt/sources.list.d/edgepi.list >/dev/null <<'EOF'deb [arch=arm64, signed-by=/usr/share/keyrings/edgepi-release.gpg] https://deb.edgepi.com/nightly bullseye nightly EOF
-          sudo apt update
-          sudo apt install edgepi-rpc-server
      
       - name: Test with jest
         run: |
