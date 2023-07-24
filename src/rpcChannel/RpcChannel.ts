@@ -1,6 +1,6 @@
 import type * as protobuf from 'protobufjs'
 import * as zmq from 'zeromq'
-import type { serviceRequest, RpcRequest, RpcResponse, serverResponse } from '../types/ReqRepTypes'
+import type { serviceRequest, RpcRequest, RpcResponse, serverResponse } from './ReqRepTypes'
 
 class RpcChannel {
   socket_endpoint: string
