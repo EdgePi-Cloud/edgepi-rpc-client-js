@@ -1,5 +1,6 @@
 import { TcService } from "../../src";
 
+// Disable the manual mocks
 jest.unmock('zeromq')
 
 describe('TcService', ()=> {
@@ -19,8 +20,8 @@ describe('TcService', ()=> {
         expect(response.length).toBe(2);
 
         // Assert that both elements in the array are floats (with a precision of 6 decimal places)
-        expect(response[0]).toBeInstanceOf(Number);
-        expect(response[1]).toBeInstanceOf(Number);
+        expect(typeof response[0]).toEqual("number");
+        expect(typeof response[1]).toEqual("number");
     })
 
     it('should call read_temperatures and get a an array of temps', async ()=>{
@@ -33,7 +34,7 @@ describe('TcService', ()=> {
         expect(response.length).toBe(2);
 
         // Assert that both elements in the array are floats (with a precision of 6 decimal places)
-        expect(response[0]).toBeInstanceOf(Number);
-        expect(response[1]).toBeInstanceOf(Number);
+        expect(typeof response[0]).toEqual("number");
+        expect(typeof response[1]).toEqual("number");
     })
 })
