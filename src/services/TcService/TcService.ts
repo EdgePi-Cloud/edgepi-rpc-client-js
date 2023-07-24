@@ -16,6 +16,7 @@ class TcService {
     this.serviceProtoRoot = protobuf.loadSync(`${__dirname}../../../../protos/tc.proto`)
     this.serviceName = 'TcService'
     this.rpcChannel = new RpcChannel(SOCKETENDPOINT, this.rpcProtoRoot)
+    console.info(this.serviceName, "initialized")
   }
 
   private async callTempReadMethod (methodName: string): Promise<number[]> {
@@ -30,6 +31,7 @@ class TcService {
     }
 
     // Call method through rpc
+    console.debug("Sending temperature reading request through rpcChannel")
     const response: serverResponse =
       await this.rpcChannel.callMethod(serviceReq, requestType, responseType)
 

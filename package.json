@@ -21,6 +21,7 @@
     "test": "jest",
     "typecheck": "tsc --noEmit",
     "lint": "eslint --max-warnings=0 .",
-    "lint:fix": "eslint --max-warnings=0 --fix ."
+    "lint:fix": "eslint --max-warnings=0 --fix .",
+    "build": "tsc -p tsconfig.json"
   }
-  }
+}
