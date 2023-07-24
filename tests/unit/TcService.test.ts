@@ -1,7 +1,7 @@
 import * as protobuf from 'protobufjs'
 import { RpcChannel } from '../../src/rpcChannel/RpcChannel'
 import { TcService } from '../../src/services/TcService/TcService'
-import type { serverResponse, serviceRequest } from '../../src/types/ReqRepTypes'
+import type { serverResponse, serviceRequest } from '../../src/rpcChannel/ReqRepTypes'
 
 // Mock dependencies
 jest.mock('protobufjs', () => {

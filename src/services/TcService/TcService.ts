@@ -1,7 +1,7 @@
 import * as protobuf from 'protobufjs'
 import { RpcChannel } from '../../rpcChannel/RpcChannel'
-import type { serverResponse, serviceRequest } from '../../types/ReqRepTypes'
-import type { TempReading } from '../../types/tcTypes'
+import type { serverResponse, serviceRequest } from '../../rpcChannel/ReqRepTypes'
+import type { TempReading } from './tcTypes'
 
 const SOCKETENDPOINT = 'ipc:///tmp/edgepi.pipe' // Temporary
 
