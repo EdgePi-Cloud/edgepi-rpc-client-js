@@ -1,4 +1,17 @@
 {
+  "name": "@edgepi-cloud/edgepi-rpc",
+  "version": "1.0.0",
+  "author": "Isaac James",
+  "main": "./lib/index.js",
+  "license": "MIT",
+  "scripts": {
+    "test": "jest",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint --max-warnings=0 .",
+    "lint:fix": "eslint --max-warnings=0 --fix .",
+    "build": "tsc -p tsconfig.json",
+    "prepublishOnly": "npm run build"
+  },
   "dependencies": {
     "@types/node": "^20.4.2",
     "protobufjs": "^7.2.4",
@@ -16,11 +29,5 @@
     "jest": "^29.6.1",
     "ts-jest": "^29.1.1",
     "typescript": "^5.1.6"
-  },
-  "scripts": {
-    "test": "jest",
-    "typecheck": "tsc --noEmit",
-    "lint": "eslint --max-warnings=0 .",
-    "lint:fix": "eslint --max-warnings=0 --fix ."
   }
-  }
+}
