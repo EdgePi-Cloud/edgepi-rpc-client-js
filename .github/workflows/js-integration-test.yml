@@ -50,4 +50,4 @@ jobs:
      
       - name: Test with jest
         run: |
-          npm run test
+          npm run test tests/integration
