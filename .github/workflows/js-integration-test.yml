@@ -38,14 +38,12 @@ jobs:
       - name: Install npm@9.8.0
         run: npm i -g npm@9.8.0
 
+      - name: Install build dependencies
+          run: sudo apt-get update && sudo apt-get install -y build-essential cmake
+
       - name: Install dependencies
         run: npm ci --prefer-offline
 
-      # Temporary fix for zmq install
-      - name: Get around zmq issue
-        run: |
-          npm uninstall zeromq
-          npm install zeromq@6.0.0-beta.17 --zmq-shared
      
       - name: Test with jest
       # TODO: fix sudo issue
