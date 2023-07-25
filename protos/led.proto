@@ -1,0 +1,30 @@
+/* Protobuf file for the LED SDK module */
+
+syntax = "proto3";
+
+package EdgePiRPC_LED;
+
+service LEDService {
+    rpc turn_led_on(LEDName) returns (SuccessMsg);
+    rpc turn_led_off(LEDName) returns (SuccessMsg);
+    rpc toggle_led(LEDName) returns (SuccessMsg);
+}
+
+message LEDName {
+    optional LEDPins led_name = 1;
+}
+
+message SuccessMsg {
+    optional string content = 1;
+}
+
+enum LEDPins{
+    LED1 = 0;
+    LED2 = 1;
+    LED3 = 2;
+    LED4 = 3;
+    LED5 = 4;
+    LED6 = 5;
+    LED7 = 6;
+    LED8 = 7;
+}

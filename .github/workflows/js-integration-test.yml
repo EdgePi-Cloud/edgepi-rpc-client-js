@@ -45,6 +45,10 @@ jobs:
       - name: Install dependencies
         run: npm ci --prefer-offline
 
+      - name: Reinstall zeromq
+        run: |
+          npm uninstall zeromq
+          npm install zeromq@6.0.0-beta.17 --zmq-shared
      
       - name: Test with jest
       # TODO: fix sudo issue
