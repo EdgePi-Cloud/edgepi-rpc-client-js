@@ -38,6 +38,12 @@ jobs:
       - name: Install npm@9.8.0
         run: npm i -g npm@9.8.0
 
+      # Work around for zmq dependancy
+      - name: Install libzmq
+        run: |
+          sudo apt update
+          sudo apt install libzmq3-dev
+
       - name: Install dependencies
         run: npm ci --prefer-offline
      
