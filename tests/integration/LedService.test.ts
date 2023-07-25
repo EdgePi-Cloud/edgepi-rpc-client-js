@@ -1,7 +1,5 @@
-import { waitForDebugger } from "inspector"
 import { LEDService } from "../../src"
 import { LEDPins } from "../../src"
-import { TcService } from "@edgepi-cloud/edgepi-rpc"
 
 
 // Disable the manual mocks
