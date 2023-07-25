@@ -5,4 +5,4 @@ node_modules
 test_client.js
 
 # js files
-dist/
+lib

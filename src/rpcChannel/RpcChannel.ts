@@ -1,6 +1,6 @@
 import type * as protobuf from 'protobufjs'
 import * as zmq from 'zeromq'
-import type { serviceRequest, RpcRequest, RpcResponse, serverResponse } from '../types/types'
+import type { serviceRequest, RpcRequest, RpcResponse, serverResponse } from './ReqRepTypes'
 
 class RpcChannel {
   socket_endpoint: string
@@ -14,6 +14,7 @@ class RpcChannel {
     this.socket.connect(this.socket_endpoint)
     this.rpcRequestType = rpcProtoRoot.lookupType('rpc.RpcRequest')
     this.rpcResponseType = rpcProtoRoot.lookupType('rpc.RpcResponse')
+    console.info("RpcChannel intialized on", this.socket_endpoint)
   }
 
   createRpcRequest (serviceReq: serviceRequest, requestType: protobuf.Type): RpcRequest {
@@ -37,12 +38,14 @@ class RpcChannel {
     // const rpc_request_type = this.proto_root.lookupType("rpc.RpcRequest");
     const rpcRequestBuff = this.rpcRequestType.encode(rpcRequest).finish()
     // send over socket
+    console.debug("Sending request to server")
     await this.socket.send(rpcRequestBuff)
   }
 
   async getRpcResponse (): Promise<RpcResponse> {
     // get rpc response from server
     const [rpcResponseData] = await this.socket.receive()
+    console.debug("Response from server received")
     // decode
     const rpcResponse: RpcResponse = this.rpcResponseType.decode(rpcResponseData) as RpcResponse
     return rpcResponse

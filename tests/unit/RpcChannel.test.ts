@@ -1,9 +1,11 @@
 // Import required modules and types
 import * as protobuf from 'protobufjs'
 import { RpcChannel } from '../../src/rpcChannel/RpcChannel'
-import type { RpcResponse, serviceRequest } from '../../src/types/types'
+import type { RpcResponse, serviceRequest } from '../../src/rpcChannel/ReqRepTypes'
 
-// Test suite for RpcChannel class
+
+
+// Test suite for RpcChannel classf
 describe('RpcChannel', () => {
   // Declare variables to be used in tests
   let socketEndpoint: string
