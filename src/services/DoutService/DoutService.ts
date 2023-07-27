@@ -6,7 +6,7 @@ import { SuccessMsg } from './DoutTypes'
 
 const SOCKETENDPOINT = 'ipc:///tmp/edgepi.pipe' // Temporary
 
-class LEDService {
+class DoutService {
   rpcProtoRoot: protobuf.Root
   serviceProtoRoot: protobuf.Root
   serviceName: string
@@ -21,7 +21,7 @@ class LEDService {
   }
 
   async set_dout_state(doutPin: number, state: number): Promise<string>{
-    const requestType = this.serviceProtoRoot.lookupType('EdgePiRPC_LED.PinAndState')
+    const requestType = this.serviceProtoRoot.lookupType('EdgePiRPC_Dout.PinAndState')
     const responseType = this.serviceProtoRoot.lookupType('EdgePiRPC_Dout.SuccessMsg')
     // Create request
     const serviceReq: serviceRequest = {
@@ -46,4 +46,4 @@ class LEDService {
     
 }
 
-export { LEDService }
+export { DoutService }
