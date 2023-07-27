@@ -1,6 +1,6 @@
 {
   "name": "@edgepi-cloud/edgepi-rpc",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Isaac James",
   "main": "./lib/index.js",
   "license": "MIT",
@@ -16,7 +16,7 @@
     "@types/node": "^20.4.2",
     "protobufjs": "^7.2.4",
     "protobufjs-cli": "^1.1.1",
-    "zeromq": "^6.0.0-beta.17 --zmq-shared"
+    "zeromq": "^6.0.0-beta.17"
   },
   "devDependencies": {
     "@types/jest": "^29.5.3",
