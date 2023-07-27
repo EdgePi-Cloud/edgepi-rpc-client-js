@@ -3,15 +3,16 @@
 syntax = "proto3";
 
 package EdgePiRPC_LED;
+option py_generic_services = true;
 
 service LEDService {
-    rpc turn_led_on(LEDName) returns (SuccessMsg);
-    rpc turn_led_off(LEDName) returns (SuccessMsg);
-    rpc toggle_led(LEDName) returns (SuccessMsg);
+    rpc turn_led_on(LEDPin) returns (SuccessMsg);
+    rpc turn_led_off(LEDPin) returns (SuccessMsg);
+    rpc toggle_led(LEDPin) returns (SuccessMsg);
 }
 
-message LEDName {
-    optional LEDPins led_name = 1;
+message LEDPin {
+    optional LEDPins led_pin = 1;
 }
 
 message SuccessMsg {

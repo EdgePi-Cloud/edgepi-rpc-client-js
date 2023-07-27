@@ -19,14 +19,14 @@ class LEDService {
     console.info(this.serviceName, "initialized")
   }
 
-  private async LEDRequest(methodName: string, ledName: LEDPin): Promise<string>{
-    const requestType = this.serviceProtoRoot.lookupType('EdgePiRPC_LED.LEDName')
+  private async LEDRequest(methodName: string, ledPin: LEDPin): Promise<string>{
+    const requestType = this.serviceProtoRoot.lookupType('EdgePiRPC_LED.LEDPin')
     const responseType = this.serviceProtoRoot.lookupType('EdgePiRPC_LED.SuccessMsg')
     // Create request
     const serviceReq: serviceRequest = {
       serviceName: this.serviceName,
       methodName,
-      requestMsg: {ledName}
+      requestMsg: {ledPin}
     }
     // Call method through rpc
     console.debug("Sending  request through rpcChannel")
@@ -40,14 +40,14 @@ class LEDService {
     return successMsg.content
   }
 
-  async turnOn(ledName: LEDPin): Promise<string>{
-    return await this.LEDRequest('turn_led_on', ledName)
+  async turnOn(ledPin: LEDPin): Promise<string>{
+    return await this.LEDRequest('turn_led_on', ledPin)
   }
-  async turnOff(ledName: LEDPin): Promise<string>{
-    return await this.LEDRequest('turn_led_off', ledName)
+  async turnOff(ledPin: LEDPin): Promise<string>{
+    return await this.LEDRequest('turn_led_off', ledPin)
   }
-  async toggleLed(ledName: LEDPin): Promise<string>{
-    return await this.LEDRequest('toggle_led', ledName)
+  async toggleLed(ledPin: LEDPin): Promise<string>{
+    return await this.LEDRequest('toggle_led', ledPin)
   }
     
 }
