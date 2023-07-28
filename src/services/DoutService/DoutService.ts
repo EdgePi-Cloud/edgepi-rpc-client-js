@@ -13,6 +13,7 @@ class DoutService {
   rpcChannel: RpcChannel
 
   constructor () {
+    // TODO: Modify proto pats
     this.rpcProtoRoot = protobuf.loadSync(`${__dirname}../../../../protos/rpc.proto`)
     this.serviceProtoRoot = protobuf.loadSync(`${__dirname}../../../../protos/dout.proto`)
     this.serviceName = 'DoutService'
