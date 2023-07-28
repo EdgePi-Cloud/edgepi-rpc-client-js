@@ -1,6 +1,8 @@
 import * as protobuf from 'protobufjs'
+import path from 'path'
 
-const root = protobuf.loadSync(`${__dirname}../../../../protos/dout.proto`)
+const pathToProtosRelative = path.join(__dirname,'..','..','..','node_modules', '@edgepi-cloud','rpc-protobuf')
+const root = protobuf.loadSync(path.join(pathToProtosRelative, 'dout.proto'))
 const protoEnum = root.lookupEnum('DoutTriState').values
 
 const DoutTriState= Object.freeze({

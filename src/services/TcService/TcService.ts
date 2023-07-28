@@ -1,8 +1,12 @@
 import * as protobuf from 'protobufjs'
+import path from 'path'
 import { RpcChannel } from '../../rpcChannel/RpcChannel'
 import type { serverResponse, serviceRequest } from '../../rpcChannel/ReqRepTypes'
 import type { TempReading } from './tcTypes'
 
+const pathToProtosRelative = path.join(
+  __dirname,'..','..','..','node_modules', '@edgepi-cloud','rpc-protobuf'
+  )
 const SOCKETENDPOINT = 'ipc:///tmp/edgepi.pipe' // Temporary
 
 class TcService {
@@ -13,8 +17,8 @@ class TcService {
 
   constructor () {
     // TODO: Modify proto pats
-    this.rpcProtoRoot = protobuf.loadSync(`${__dirname}../../../../protos/rpc.proto`)
-    this.serviceProtoRoot = protobuf.loadSync(`${__dirname}../../../../protos/tc.proto`)
+    this.rpcProtoRoot = protobuf.loadSync(path.join(pathToProtosRelative, 'rpc.proto'))
+    this.serviceProtoRoot = protobuf.loadSync(path.join(pathToProtosRelative, 'tc.proto'))
     this.serviceName = 'TcService'
     this.rpcChannel = new RpcChannel(SOCKETENDPOINT, this.rpcProtoRoot)
     console.info(this.serviceName, "initialized")
