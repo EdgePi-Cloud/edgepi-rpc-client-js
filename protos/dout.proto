@@ -1,0 +1,45 @@
+/* Protobuf file for the LED SDK module */
+
+syntax = "proto3";
+
+package EdgePiRPC_Dout;
+option py_generic_services = true;
+
+service DoutService {
+    rpc set_dout_state(PinAndState) returns(SuccessMsg);
+    rpc get_state(DoutPin) returns (State);
+}
+
+message PinAndState {
+    optional DoutPins dout_pin = 1;
+    optional DoutTriState state = 2;
+}
+
+message DoutPin {
+    optional DoutPins dout_pin = 1;
+}
+
+message State {
+    optional DoutTriState state = 1;
+}
+
+message SuccessMsg {
+    optional string content = 1;
+}
+
+enum DoutPins{
+    DOUT1 = 0;
+    DOUT2 = 1;
+    DOUT3 = 2;
+    DOUT4 = 3;
+    DOUT5 = 4;
+    DOUT6 = 5;
+    DOUT7 = 6;
+    DOUT8 = 7;
+}
+
+enum DoutTriState{
+    HI_Z = 0;
+    HIGH = 1;
+    LOW = 2;
+}

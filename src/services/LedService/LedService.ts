@@ -12,6 +12,7 @@ class LEDService {
   rpcChannel: RpcChannel
 
   constructor () {
+    // TODO: Modify proto pats
     this.rpcProtoRoot = protobuf.loadSync(`${__dirname}../../../../protos/rpc.proto`)
     this.serviceProtoRoot = protobuf.loadSync(`${__dirname}../../../../protos/led.proto`)
     this.serviceName = 'LEDService'
