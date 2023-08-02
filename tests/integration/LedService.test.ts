@@ -9,7 +9,7 @@ describe('TcService', ()=> {
     let led: LEDService
 
     beforeAll(() =>{
-        led = new LEDService();
+        led = new LEDService('ipc:///tmp/edgepi.pipe');
         
     })
 

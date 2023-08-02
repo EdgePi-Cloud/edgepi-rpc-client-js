@@ -8,7 +8,6 @@ import { LEDPin, SuccessMsg } from './LedTypes'
 const pathToProtosRelative = path.join(
   __dirname,'..','..','..','node_modules', '@edgepi-cloud','rpc-protobuf'
   )
-const SOCKETENDPOINT = 'ipc:///tmp/edgepi.pipe' // Temporary
 
 class LEDService {
   rpcProtoRoot: protobuf.Root
@@ -16,12 +15,11 @@ class LEDService {
   serviceName: string
   rpcChannel: RpcChannel
 
-  constructor () {
-    // TODO: Modify proto pats
+  constructor (serverEndpoint: string) {
     this.rpcProtoRoot = protobuf.loadSync(path.join(pathToProtosRelative,'rpc.proto'))
     this.serviceProtoRoot = protobuf.loadSync(path.join(pathToProtosRelative,'led.proto'))
     this.serviceName = 'LEDService'
-    this.rpcChannel = new RpcChannel(SOCKETENDPOINT, this.rpcProtoRoot)
+    this.rpcChannel = new RpcChannel(serverEndpoint, this.rpcProtoRoot)
     console.info(this.serviceName, "initialized")
   }
 
