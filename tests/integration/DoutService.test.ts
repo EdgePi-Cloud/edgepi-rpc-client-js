@@ -9,7 +9,7 @@ describe('DoutService', ()=> {
     let dout: DoutService
 
     beforeAll(() =>{
-        dout = new DoutService()
+        dout = new DoutService('ipc:///tmp/edgepi.pipe')
     })
 
     const pinEnumNames: { [key: number]: string } = {

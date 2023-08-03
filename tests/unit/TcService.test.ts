@@ -18,7 +18,7 @@ jest.mock('../../src/rpcChannel/RpcChannel', () => {
 })
 
 describe('TcService', () => {
-  const tc: TcService = new TcService()
+  const tc: TcService = new TcService('fake_endpoint')
 
   // Test init
   it('should be defined', () => {
