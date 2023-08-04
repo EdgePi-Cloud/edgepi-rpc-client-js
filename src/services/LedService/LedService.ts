@@ -11,7 +11,7 @@ const pathToProtosRelative = path.join(
 
 /**
  * @constructor LEDService class for calling EdgePi LED SDK methods through RPC
- * @param serverEndpoint String representation of the Rpc Server's endpoint
+ * @param serverEndpoint String representation of the RPC Server's endpoint
  */
 class LEDService {
   rpcProtoRoot: protobuf.Root
