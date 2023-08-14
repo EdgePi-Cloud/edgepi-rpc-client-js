@@ -7,7 +7,10 @@ import { SuccessMsg } from './DoutTypes'
 // Construct the path to the proto pacakge directory
 const protoPckgPath = path.join(process.cwd(), 'node_modules', '@edgepi-cloud', 'rpc-protobuf');
 
-console.log(protoPckgPath)
+  /**
+   * @constructor DoutService class for calling EdgePi digital output SDK methods through RPC
+   * @param serverEndpoint String representation of the RPC Server's endpoint
+   */
 class DoutService {
   rpcProtoRoot: protobuf.Root
   serviceProtoRoot: protobuf.Root
@@ -22,6 +25,12 @@ class DoutService {
     console.info(this.serviceName, "initialized")
   }
 
+  /**
+   * @async Calls EdgePi set_dout_state SDK method through rpc
+   * @param doutPin 
+   * @param state 
+   * @returns {Promise<String>}
+   */
   async set_dout_state(doutPin: number, state: number): Promise<string>{
     const requestType = this.serviceProtoRoot.lookupType('EdgePiRPC_Dout.PinAndState')
     const responseType = this.serviceProtoRoot.lookupType('EdgePiRPC_Dout.SuccessMsg')

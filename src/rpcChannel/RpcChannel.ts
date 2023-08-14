@@ -2,6 +2,11 @@ import type * as protobuf from 'protobufjs'
 import * as zmq from 'zeromq'
 import type { serviceRequest, RpcRequest, RpcResponse, serverResponse } from './ReqRepTypes'
 
+/**
+ * Mediates RPC messages to and from the RPC server.
+ * @param socketEndpoint string representation of the RPC server's endoint
+ * @param rpcProtoRoot a protobufjs Root object of the PRC protobuf messages file
+ */
 class RpcChannel {
   socket_endpoint: string
   socket: zmq.Request
@@ -17,6 +22,12 @@ class RpcChannel {
     console.info("RpcChannel intialized on", this.socket_endpoint)
   }
 
+  /**
+   * Wraps client message in an Rpc message
+   * @param serviceReq 
+   * @param requestType 
+   * @returns RpcRequest obect
+   */
   createRpcRequest (serviceReq: serviceRequest, requestType: protobuf.Type): RpcRequest {
     // Serialize request message
     const request = requestType.create(serviceReq.requestMsg)
@@ -33,6 +44,10 @@ class RpcChannel {
     return rpcRequest
   }
 
+  /**
+   * @async Serializes the Rpc Request and sends it over a socket to server
+   * @param rpcRequest 
+   */
   async sendRpcRequest (rpcRequest: protobuf.Message): Promise<void> {
     // serialize rpc request
     // const rpc_request_type = this.proto_root.lookupType("rpc.RpcRequest");
@@ -42,6 +57,10 @@ class RpcChannel {
     await this.socket.send(rpcRequestBuff)
   }
 
+  /**
+   * @async Receives the rpc response from server and decodes it
+   * @returns 
+   */
   async getRpcResponse (): Promise<RpcResponse> {
     // get rpc response from server
     const [rpcResponseData] = await this.socket.receive()
@@ -51,6 +70,12 @@ class RpcChannel {
     return rpcResponse
   }
 
+  /**
+   * Deserializes the client message within the Rpc Response message and creates a response object
+   * @param responseType 
+   * @param rpcResponse 
+   * @returns server response object
+   */
   createServerResponse (responseType: protobuf.Type, rpcResponse: RpcResponse): serverResponse {
     // deserialize server response
     const serverResponseMessage = (rpcResponse.responseProto !== null)
@@ -69,6 +94,13 @@ class RpcChannel {
     return serverResponse
   }
 
+  /**
+   * Calls an SDK method through RPC from a given service request object and the expected request/reponse types
+   * @param serviceReq 
+   * @param requestType 
+   * @param responseType 
+   * @returns server response object
+   */
   async callMethod (
     serviceReq: serviceRequest,
     requestType: protobuf.Type,

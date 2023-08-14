@@ -7,6 +7,10 @@ import { LEDPin, SuccessMsg } from './LedTypes'
 
 const protoPckgPath = path.join(process.cwd(), 'node_modules', '@edgepi-cloud', 'rpc-protobuf');
 
+/**
+ * @constructor LEDService class for calling EdgePi LED SDK methods through RPC
+ * @param serverEndpoint String representation of the RPC Server's endpoint
+ */
 class LEDService {
   rpcProtoRoot: protobuf.Root
   serviceProtoRoot: protobuf.Root
@@ -21,6 +25,12 @@ class LEDService {
     console.info(this.serviceName, "initialized")
   }
 
+  /**
+   * @async Sends an RPC request for a specified LED method
+   * @param methodName Name of the LED SDK method to call
+   * @param ledPin The LED Pin argument for the method
+   * @returns {Promise<String>} The RPC response message
+   */
   private async LEDRequest(methodName: string, ledPin: LEDPin): Promise<string>{
     const requestType = this.serviceProtoRoot.lookupType('EdgePiRPC_LED.LEDPin')
     const responseType = this.serviceProtoRoot.lookupType('EdgePiRPC_LED.SuccessMsg')
@@ -42,12 +52,30 @@ class LEDService {
     return successMsg.content
   }
 
+  /**
+   * @async Calls EdgePi turnOn SDK method through RPC
+   * @param LEDPin Enum
+   * @returns {Promise<String>} A message specifying whether the call was successful or not
+  */
   async turnOn(ledPin: LEDPin): Promise<string>{
+    
     return await this.LEDRequest('turn_led_on', ledPin)
   }
+
+  /**
+   * @async Calls the EdgePi turnOff SDK method through RPC
+   * @param LEDPin Enum
+   * @returns {Promise<String>} A message specifying whether the call was successful or not
+  */
   async turnOff(ledPin: LEDPin): Promise<string>{
     return await this.LEDRequest('turn_led_off', ledPin)
   }
+
+  /**
+   * @async Calls the EdgePi toggleLed SDK method through RPC
+   * @param LEDPin Enum
+   * @returns {Promise<String>} A message specifying whether the call was successful or not
+  */
   async toggleLed(ledPin: LEDPin): Promise<string>{
     return await this.LEDRequest('toggle_led', ledPin)
   }

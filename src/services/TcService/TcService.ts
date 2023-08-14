@@ -6,6 +6,10 @@ import type { TempReading } from './tcTypes'
 
 const protoPckgPath = path.join(process.cwd(), 'node_modules', '@edgepi-cloud', 'rpc-protobuf');
 
+  /**
+   * @constructor TcService class for calling EdgePi thermocouple SDK methods through RPC
+   * @param serverEndpoint String representation of the RPC Server's endpoint
+   */
 class TcService {
   rpcProtoRoot: protobuf.Root
   serviceProtoRoot: protobuf.Root
@@ -20,6 +24,11 @@ class TcService {
     console.info(this.serviceName, "initialized")
   }
 
+  /**
+   * Sends an RPC request for a specified Tc Method
+   * @param methodName Name of the Tc SDK method to call
+   * @returns {Promise<number[]>} An array [cold junction temp, linearized temp]
+   */
   private async callTempReadMethod (methodName: string): Promise<number[]> {
     // Get types
     const requestType = this.serviceProtoRoot.lookupType('EdgePiRPC_TC.EmptyMsg')
@@ -43,10 +52,19 @@ class TcService {
     return [tempReading.cjTemp, tempReading.linTemp]
   }
 
+  /**
+   * Calls the EdgePi singleSample SDK method through RPC
+   * @param None
+   * @returns {Promise<number[]>} An array [cold junction temp, linearized temp]
+   */
   async singleSample (): Promise<number[]> {
     return await this.callTempReadMethod('single_sample')
   }
-
+  /**
+   * Calls the EdgePi readTemperatures SDK method through RPC
+   * @param None
+   * @returns {Promise<number[]>} An array [cold junction temp, linearized temp]
+   */
   async readTemperatures (): Promise<number[]> {
     return await this.callTempReadMethod('read_temperatures')
   }
