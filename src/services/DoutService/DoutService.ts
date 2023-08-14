@@ -4,9 +4,8 @@ import { RpcChannel } from '../../rpcChannel/RpcChannel'
 import type { serverResponse, serviceRequest } from '../../rpcChannel/ReqRepTypes'
 import { SuccessMsg } from './DoutTypes'
 
-const pathToProtosRelative = path.join(
-  __dirname,'..','..','..','node_modules', '@edgepi-cloud','rpc-protobuf'
-  )
+// Construct the path to the proto pacakge directory
+const protoPckgPath = path.join(process.cwd(), 'node_modules', '@edgepi-cloud', 'rpc-protobuf');
 
   /**
    * @constructor DoutService class for calling EdgePi digital output SDK methods through RPC
@@ -19,8 +18,8 @@ class DoutService {
   rpcChannel: RpcChannel
 
   constructor (serverEndpoint: string) {
-    this.rpcProtoRoot = protobuf.loadSync(path.join(pathToProtosRelative,'rpc.proto'))
-    this.serviceProtoRoot = protobuf.loadSync(path.join(pathToProtosRelative,'dout.proto'))
+    this.rpcProtoRoot = protobuf.loadSync(path.join(protoPckgPath,'rpc.proto'))
+    this.serviceProtoRoot = protobuf.loadSync(path.join(protoPckgPath,'dout.proto'))
     this.serviceName = 'DoutService'
     this.rpcChannel = new RpcChannel(serverEndpoint, this.rpcProtoRoot)
     console.info(this.serviceName, "initialized")

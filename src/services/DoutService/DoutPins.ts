@@ -1,10 +1,9 @@
 import * as protobuf from 'protobufjs'
 import path from 'path';
 
-const pathToProtosRelative = path.join(
-    __dirname,'..','..','..','node_modules', '@edgepi-cloud','rpc-protobuf'
-    )
-const root = protobuf.loadSync(path.join(pathToProtosRelative, 'dout.proto'))
+const protoPckgPath = path.join(process.cwd(), 'node_modules', '@edgepi-cloud', 'rpc-protobuf');
+
+const root = protobuf.loadSync(path.join(protoPckgPath, 'dout.proto'))
 const protoEnum = root.lookupEnum('DoutPins').values
 
 const DoutPins= Object.freeze({

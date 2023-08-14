@@ -1,10 +1,10 @@
 import * as protobuf from 'protobufjs'
 import path from 'path'
 
-const pathToProtosRelative = path.join(
-    __dirname,'..','..','..','node_modules', '@edgepi-cloud','rpc-protobuf'
-    )
-const root = protobuf.loadSync(path.join(pathToProtosRelative, 'led.proto'))
+// Construct the path to the proto pacakge directory
+const protoPckgPath = path.join(process.cwd(), 'node_modules', '@edgepi-cloud', 'rpc-protobuf');
+
+const root = protobuf.loadSync(path.join(protoPckgPath, 'led.proto'))
 const protoEnum = root.lookupEnum('LEDPins').values
 
 const LEDPins= Object.freeze({

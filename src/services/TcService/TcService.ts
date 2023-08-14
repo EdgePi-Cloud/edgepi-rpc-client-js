@@ -4,9 +4,7 @@ import { RpcChannel } from '../../rpcChannel/RpcChannel'
 import type { serverResponse, serviceRequest } from '../../rpcChannel/ReqRepTypes'
 import type { TempReading } from './tcTypes'
 
-const pathToProtosRelative = path.join(
-  __dirname,'..','..','..','node_modules', '@edgepi-cloud','rpc-protobuf'
-  )
+const protoPckgPath = path.join(process.cwd(), 'node_modules', '@edgepi-cloud', 'rpc-protobuf');
 
   /**
    * @constructor TcService class for calling EdgePi thermocouple SDK methods through RPC
@@ -19,8 +17,8 @@ class TcService {
   rpcChannel: RpcChannel
 
   constructor (serverEndpoint: string) {
-    this.rpcProtoRoot = protobuf.loadSync(path.join(pathToProtosRelative, 'rpc.proto'))
-    this.serviceProtoRoot = protobuf.loadSync(path.join(pathToProtosRelative, 'tc.proto'))
+    this.rpcProtoRoot = protobuf.loadSync(path.join(protoPckgPath, 'rpc.proto'))
+    this.serviceProtoRoot = protobuf.loadSync(path.join(protoPckgPath, 'tc.proto'))
     this.serviceName = 'TcService'
     this.rpcChannel = new RpcChannel(serverEndpoint, this.rpcProtoRoot)
     console.info(this.serviceName, "initialized")
