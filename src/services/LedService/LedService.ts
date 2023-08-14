@@ -5,9 +5,7 @@ import type { serverResponse, serviceRequest } from '../../rpcChannel/ReqRepType
 import { LEDPin, SuccessMsg } from './LedTypes'
 
 
-const pathToProtosRelative = path.join(
-  __dirname,'..','..','..','node_modules', '@edgepi-cloud','rpc-protobuf'
-  )
+const protoPckgPath = path.join(process.cwd(), 'node_modules', '@edgepi-cloud', 'rpc-protobuf');
 
 class LEDService {
   rpcProtoRoot: protobuf.Root
@@ -16,8 +14,8 @@ class LEDService {
   rpcChannel: RpcChannel
 
   constructor (serverEndpoint: string) {
-    this.rpcProtoRoot = protobuf.loadSync(path.join(pathToProtosRelative,'rpc.proto'))
-    this.serviceProtoRoot = protobuf.loadSync(path.join(pathToProtosRelative,'led.proto'))
+    this.rpcProtoRoot = protobuf.loadSync(path.join(protoPckgPath,'rpc.proto'))
+    this.serviceProtoRoot = protobuf.loadSync(path.join(protoPckgPath,'led.proto'))
     this.serviceName = 'LEDService'
     this.rpcChannel = new RpcChannel(serverEndpoint, this.rpcProtoRoot)
     console.info(this.serviceName, "initialized")
