@@ -2,7 +2,7 @@ import * as protobuf from 'protobufjs'
 import path from 'path'
 import { RpcChannel } from '../../rpcChannel/RpcChannel'
 import type { serverResponse, serviceRequest } from '../../rpcChannel/ReqRepTypes'
-import { DinPin } from './DinTypes'
+import { DinPin, StateMsg } from './DinTypes'
 
 const protoPckgPath = path.join(require.resolve('@edgepi-cloud/rpc-protobuf'), '..');
 
@@ -24,11 +24,34 @@ class DinService {
     console.info(this.serviceName, "initialized")
   }
 
-  async digital_input_state(DinPin: DinPin): Promise<boolean> {
+   /**
+   * @async Calls the EdgePi digital_input_state SDK method through RPC
+   * @param DinPin Enum
+   * @returns {Promise<boolean>} The state of the digital input pin
+  */
+  async digital_input_state(dinPin: DinPin): Promise<boolean> {
+    const requestType = this.serviceProtoRoot.lookupType('EdgePiRPC_DIN.DinPin')
+    const responseType = this.serviceProtoRoot.lookupType('EdgePiRPC_DIN.State')
+    // Create request
+    const serviceReq: serviceRequest = {
+      serviceName: this.serviceName,
+      methodName: 'digital_input_state',
+      requestMsg: {dinPin}
+    }
+    // Call method through rpc
+    console.debug("Sending  request through rpcChannel")
+    const response: serverResponse =
+      await this.rpcChannel.callMethod(serviceReq, requestType, responseType)
 
-    return true;
+    if (response.error !== undefined) {
+      throw Error(response.error)
+    }
+ 
+    const stateMsg: StateMsg = response.content as StateMsg
+    return stateMsg.stateBool
+    
   }
 
 }
 
-export default DinService
+export { DinService }

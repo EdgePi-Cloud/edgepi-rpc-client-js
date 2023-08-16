@@ -5,7 +5,7 @@ import path from 'path'
 const protoPckgPath = path.join(require.resolve('@edgepi-cloud/rpc-protobuf'),'..');
 
 const root = protobuf.loadSync(path.join(protoPckgPath, 'din.proto'))
-const protoEnum = root.lookupEnum('DINPIns').values
+const protoEnum = root.lookupEnum('DinPins').values
 
 const DinPins= Object.freeze({
     DIN1: protoEnum.DIN1,

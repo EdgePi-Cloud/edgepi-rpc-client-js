@@ -1,3 +1,7 @@
+export interface StateMsg extends protobuf.Message {
+  stateBool: boolean
+}
+
 // Type representing the values of the LEDPins object
 export enum DinPin {
   DIN1,
