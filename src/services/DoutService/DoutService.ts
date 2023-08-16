@@ -2,7 +2,8 @@ import * as protobuf from 'protobufjs'
 import path from 'path'
 import { RpcChannel } from '../../rpcChannel/RpcChannel'
 import type { serverResponse, serviceRequest } from '../../rpcChannel/ReqRepTypes'
-import { SuccessMsg } from './DoutTypes'
+import { DoutPin, DoutTriState } from './DoutTypes'
+import { SuccessMsg } from '../serviceTypes/successMsg'
 
 // Construct the path to the proto pacakge directory
 const protoPckgPath = path.join(require.resolve('@edgepi-cloud/rpc-protobuf'), '..');
@@ -27,11 +28,11 @@ class DoutService {
 
   /**
    * @async Calls EdgePi set_dout_state SDK method through rpc
-   * @param doutPin 
-   * @param state 
+   * @param doutPin Enum
+   * @param state Enum
    * @returns {Promise<String>}
    */
-  async set_dout_state(doutPin: number, state: number): Promise<string>{
+  async set_dout_state(doutPin: DoutPin, state: DoutTriState): Promise<string>{
     const requestType = this.serviceProtoRoot.lookupType('EdgePiRPC_Dout.PinAndState')
     const responseType = this.serviceProtoRoot.lookupType('EdgePiRPC_Dout.SuccessMsg')
     // Create request
