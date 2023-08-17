@@ -6,7 +6,6 @@ on:
   push:
     branches:
       - dev
-      - din_relay_service
   pull_request:
     branches:
       - dev
