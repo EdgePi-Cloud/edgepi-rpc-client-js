@@ -6,6 +6,7 @@ import { DoutTriState } from './services/DoutService/DoutStates'
 import { DoutService } from './services/DoutService/DoutService'
 import { DinPins } from './services/DinService/DinPins'
 import { DinService } from './services/DinService/DinService'
+import { RelayService } from './services/RelayService/RelayService'
 
 
 export {
@@ -16,6 +17,6 @@ export {
   DoutPins,
   DoutTriState,
   DinService,
-  DinPins
-  
+  DinPins,
+  RelayService
 }

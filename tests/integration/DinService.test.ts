@@ -13,7 +13,7 @@ describe('TcService', ()=> {
         
     })
     
-    // Turn on LED test suite
+    // digital_input_state test suite
     test.each([
         [DinPins.DIN1],
         [DinPins.DIN2],
