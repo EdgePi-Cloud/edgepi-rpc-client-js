@@ -7,7 +7,7 @@ describe('TcService', ()=> {
     let tc: TcService
 
     beforeAll(() =>{
-        tc = new TcService('ipc:///tmp/edgepi.pipe');
+        tc = new TcService('tcp://localhost:5555');
     })
 
     it('should call single_sample and get a an array of temps', async ()=>{

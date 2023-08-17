@@ -47,4 +47,4 @@ jobs:
      # TODO: fix sudo issue
       - name: Test with jest
         run: |
-          sudo npm run test tests/integration
+          npm run test tests/integration
