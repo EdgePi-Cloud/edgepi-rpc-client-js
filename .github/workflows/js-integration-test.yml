@@ -39,14 +39,13 @@ jobs:
       - name: Install npm@9.8.0
         run: npm i -g npm@9.8.0
 
-      - name: Install zeromq
-        run: npm install zeromq@6.0.0-beta.17 --zmq-shared
-
       - name: Install dependencies
         run: npm ci --prefer-offline
 
-      - name: Start server
-        run: sudo systemctl start edgepi-rpc-server.service
+      - name: Reinstall zeromq because of Debian bug
+        run: |
+          npm uninstall zeromq
+          npm install zeromq@6.0.0-beta.17 --zmq-shared
  
       - name: Test with jest
         run: |
