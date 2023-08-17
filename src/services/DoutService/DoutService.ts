@@ -5,7 +5,7 @@ import type { serverResponse, serviceRequest } from '../../rpcChannel/ReqRepType
 import { SuccessMsg } from './DoutTypes'
 
 // Construct the path to the proto pacakge directory
-const protoPckgPath = path.join(process.cwd(), 'node_modules', '@edgepi-cloud', 'rpc-protobuf');
+const protoPckgPath = path.join(require.resolve('@edgepi-cloud/rpc-protobuf'), '..');
 
   /**
    * @constructor DoutService class for calling EdgePi digital output SDK methods through RPC
