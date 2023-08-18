@@ -2,7 +2,8 @@ import * as protobuf from 'protobufjs'
 import path from 'path'
 import { RpcChannel } from '../../rpcChannel/RpcChannel'
 import type { serverResponse, serviceRequest } from '../../rpcChannel/ReqRepTypes'
-import { LEDPin, SuccessMsg } from './LedTypes'
+import { LEDPin } from '../LedService/LedTypes'
+import { SuccessMsg } from '../serviceTypes/successMsg'
 
 const protoPckgPath = path.join(require.resolve('@edgepi-cloud/rpc-protobuf'), '..');
 

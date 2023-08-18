@@ -1,9 +1,10 @@
-import * as protobuf from 'protobufjs'
-import { LEDPins } from './LedPins';
-
-export interface SuccessMsg extends protobuf.Message {
-  content: string
+export enum LEDPin{
+  LEDPin1,
+  LEDPin2,
+  LEDPin3,
+  LEDPin4,
+  LEDPin5,
+  LEDPin6,
+  LEDPin7,
+  LEDPin8,
 }
-
-// Type representing the values of the LEDPins object
-export type LEDPin = typeof LEDPins[keyof typeof LEDPins];

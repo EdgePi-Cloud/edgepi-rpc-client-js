@@ -38,13 +38,14 @@ jobs:
       - name: Install npm@9.8.0
         run: npm i -g npm@9.8.0
 
-      - name: Install zeromq
-        run: npm install zeromq@6.0.0-beta.17 --zmq-shared
-
       - name: Install dependencies
         run: npm ci --prefer-offline
+
+      - name: Reinstall zeromq because of Debian bug
+        run: |
+          npm uninstall zeromq
+          npm install zeromq@6.0.0-beta.17 --zmq-shared
  
-     # TODO: fix sudo issue
       - name: Test with jest
         run: |
-          sudo npm run test tests/integration
+          npm run test tests/integration

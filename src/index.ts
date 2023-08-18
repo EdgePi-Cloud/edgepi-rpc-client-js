@@ -4,6 +4,9 @@ import { LEDPins } from './services/LedService/LedPins'
 import { DoutPins } from './services/DoutService/DoutPins'
 import { DoutTriState } from './services/DoutService/DoutStates'
 import { DoutService } from './services/DoutService/DoutService'
+import { DinPins } from './services/DinService/DinPins'
+import { DinService } from './services/DinService/DinService'
+import { RelayService } from './services/RelayService/RelayService'
 
 
 export {
@@ -12,6 +15,8 @@ export {
   LEDPins,
   DoutService,
   DoutPins,
-  DoutTriState
-  
+  DoutTriState,
+  DinService,
+  DinPins,
+  RelayService
 }
