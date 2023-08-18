@@ -28,14 +28,22 @@ class AdcService {
    * @param DinPin Enum
    * @returns {Promise<string>} The state of the digital input pin
   */
-  async set_config(): Promise<string> {
+  async set_config(
+  ): Promise<string> {
     const requestType = this.serviceProtoRoot.lookupType('EdgePiRPC_ADC.Config')
     const responseType = this.serviceProtoRoot.lookupType('EdgePiRPC_ADC.SuccessMsg')
     // Create request
     const serviceReq: serviceRequest = {
       serviceName: this.serviceName,
       methodName: 'set_config',
-      requestMsg: {}
+      requestMsg: /*Config Message*/{
+        // Config Argument Messages
+        [
+            {
+                
+            }
+        ]
+      }
     }
     // Call method through rpc
     console.debug("Sending  request through rpcChannel")
