@@ -9,3 +9,14 @@ export enum DinPin {
   DIN7,
   DIN8
 }
+
+export interface DinPins {
+  DIN1: DinPin
+  DIN2: DinPin
+  DIN3: DinPin
+  DIN4: DinPin
+  DIN5: DinPin
+  DIN6: DinPin
+  DIN7: DinPin
+  DIN8: DinPin
+}

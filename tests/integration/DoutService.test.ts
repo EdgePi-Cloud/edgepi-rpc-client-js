@@ -1,6 +1,6 @@
 import { DoutService } from "../../src"
-import { DoutPins } from "../../src"
 import { DoutTriState } from "../../src"
+import { DOUTPins } from "../../src"
 
 // Disable manual mocks
 jest.unmock('zeromq')
@@ -30,14 +30,14 @@ describe('DoutService', ()=> {
 
     // set_dout_config HI_Z test suite
     test.each([
-        [DoutPins.DOUT1],
-        [DoutPins.DOUT2],
-        [DoutPins.DOUT3],
-        [DoutPins.DOUT4],
-        [DoutPins.DOUT5],
-        [DoutPins.DOUT6],
-        [DoutPins.DOUT7],
-        [DoutPins.DOUT8]
+        [DOUTPins.DOUT1],
+        [DOUTPins.DOUT2],
+        [DOUTPins.DOUT3],
+        [DOUTPins.DOUT4],
+        [DOUTPins.DOUT5],
+        [DOUTPins.DOUT6],
+        [DOUTPins.DOUT7],
+        [DOUTPins.DOUT8]
     ])('should set dout pin to HI_Z and and get correct successmsg', async (doutPin) => {
         const response = await dout.set_dout_state(doutPin, DoutTriState.HI_Z)
         expect(response).toEqual(
@@ -46,14 +46,14 @@ describe('DoutService', ()=> {
 
     // set_dout_config HIGH test suite
     test.each([
-        [DoutPins.DOUT1],
-        [DoutPins.DOUT2],
-        [DoutPins.DOUT3],
-        [DoutPins.DOUT4],
-        [DoutPins.DOUT5],
-        [DoutPins.DOUT6],
-        [DoutPins.DOUT7],
-        [DoutPins.DOUT8]
+        [DOUTPins.DOUT1],
+        [DOUTPins.DOUT2],
+        [DOUTPins.DOUT3],
+        [DOUTPins.DOUT4],
+        [DOUTPins.DOUT5],
+        [DOUTPins.DOUT6],
+        [DOUTPins.DOUT7],
+        [DOUTPins.DOUT8]
     ])('should set dout pin to HIGH and and get correct successmsg', async (doutPin) => {
         const response = await dout.set_dout_state(doutPin, DoutTriState.HIGH)
         expect(response).toEqual(
@@ -62,14 +62,14 @@ describe('DoutService', ()=> {
 
     // set_dout_config LOW test suite
     test.each([
-        [DoutPins.DOUT1],
-        [DoutPins.DOUT2],
-        [DoutPins.DOUT3],
-        [DoutPins.DOUT4],
-        [DoutPins.DOUT5],
-        [DoutPins.DOUT6],
-        [DoutPins.DOUT7],
-        [DoutPins.DOUT8]
+        [DOUTPins.DOUT1],
+        [DOUTPins.DOUT2],
+        [DOUTPins.DOUT3],
+        [DOUTPins.DOUT4],
+        [DOUTPins.DOUT5],
+        [DOUTPins.DOUT6],
+        [DOUTPins.DOUT7],
+        [DOUTPins.DOUT8]
     ])('should set dout pin to LOW and and get correct successmsg', async (doutPin) => {
         const response = await dout.set_dout_state(doutPin, DoutTriState.LOW)
         expect(response).toEqual(

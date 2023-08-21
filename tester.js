@@ -5,10 +5,10 @@ const protoPckgPath = path.join(require.resolve('@edgepi-cloud/rpc-protobuf'), '
 
 this.serviceProtoRoot = protobuf.loadSync(path.join(protoPckgPath,'adc.proto'))
 const requestType = this.serviceProtoRoot.lookupType('EdgePiRPC_ADC.Config')
-
+console.log(requestType)
 const requestMsg = {
     confArg: [
-        {overrideUpdatesValidation: true}
+        {overrideUpdatesValidation: true}, {adc_1AnalogIn: 0}
     ]
 }
 
@@ -19,9 +19,3 @@ const buf = requestType.encode(msg).finish();
 const msg_dec = requestType.decode(buf)
 
 console.log(msg_dec)
-
-function a({a = 1}){
-    return {...arguments}
-}
-
-console.log(a({poo:'1'}))

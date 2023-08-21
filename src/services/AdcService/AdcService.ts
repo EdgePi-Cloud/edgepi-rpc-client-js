@@ -4,7 +4,7 @@ import { RpcChannel } from '../../rpcChannel/RpcChannel'
 import type { serverResponse, serviceRequest } from '../../rpcChannel/ReqRepTypes'
 import { createConfigArgsList } from '../util/helpers'
 import { SuccessMsg } from '../serviceTypes/successMsg'
-import { AdcConfig } from './AdcTypes'
+import { adcConfig } from './AdcTypes'
 
 const protoPckgPath = path.join(require.resolve('@edgepi-cloud/rpc-protobuf'), '..');
 
@@ -33,27 +33,30 @@ class AdcService {
   */
   async set_config(
     {
-      adc1AnalogIn = undefined,
-      adc1DataRate = undefined,
-      adc2AnalogIn = undefined,
+      adc_1AnalogIn = undefined,
+      adc_1DataRate = undefined,
+      adc_2AnalogIn = undefined,
       filterMode = undefined,
       conversionMode = undefined,
-      overrideUpdatesValidation = false
-    }: {[key: string]: any}
+      overrideUpdatesValidation = undefined
+    }: adcConfig
   ): Promise<string> {
     const requestType = this.serviceProtoRoot.lookupType('EdgePiRPC_ADC.Config')
     const responseType = this.serviceProtoRoot.lookupType('EdgePiRPC_ADC.SuccessMsg')
     // Create request
+    const argsList = createConfigArgsList({
+      adc_1AnalogIn,adc_1DataRate,adc_2AnalogIn,filterMode,conversionMode,overrideUpdatesValidation
+    })
+    console.log(argsList)
     const serviceReq: serviceRequest = {
       serviceName: this.serviceName,
       methodName: 'set_config',
       requestMsg: /*Config Message*/{
         // Config Argument Messages
-        confArg : createConfigArgsList({
-          adc1AnalogIn,adc1DataRate,adc2AnalogIn,filterMode,conversionMode,overrideUpdatesValidation
-        })
+        confArg : argsList
       }
     }
+    console.log(serviceReq);
     // Call method through rpc
     console.debug("Sending  request through rpcChannel")
     const response: serverResponse =

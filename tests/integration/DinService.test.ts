@@ -1,4 +1,4 @@
-import { DinPins, DinService } from "../../src";
+import { DINPins, DinService } from "../../src";
 
 
 
@@ -15,14 +15,14 @@ describe('TcService', ()=> {
     
     // digital_input_state test suite
     test.each([
-        [DinPins.DIN1],
-        [DinPins.DIN2],
-        [DinPins.DIN3],
-        [DinPins.DIN4],
-        [DinPins.DIN5],
-        [DinPins.DIN6],
-        [DinPins.DIN7],
-        [DinPins.DIN8],
+        [DINPins.DIN1],
+        [DINPins.DIN2],
+        [DINPins.DIN3],
+        [DINPins.DIN4],
+        [DINPins.DIN5],
+        [DINPins.DIN6],
+        [DINPins.DIN7],
+        [DINPins.DIN8],
       ])('should get the state of a digital input pin', async (DinPin)=>{
         let response = await din.digital_input_state(DinPin)
         expect(typeof response == 'boolean').toBe(true)
