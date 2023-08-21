@@ -1,7 +1,7 @@
 import * as protobuf from 'protobufjs'
 import { RpcChannel } from '../../src/rpcChannel/RpcChannel'
 import { DinService } from '../../src/services/DinService/DinService'
-import { DinPins } from '../../src/services/DinService/DinPins'
+import { DINPins } from '../../src/services/DinService/DinPins'
 import type { serverResponse, serviceRequest } from '../../src/rpcChannel/ReqRepTypes'
 
 // Mock dependencies
@@ -61,14 +61,14 @@ describe('DinService test suite', () => {
         serviceName: 'DinService',
         methodName: 'digital_input_state',
         requestMsg: {
-          dinPin: DinPins.DIN1
+          dinPin: DINPins.DIN1
         }
       } as unknown as serviceRequest
       const lookupTypeSpy = jest.spyOn(din.serviceProtoRoot, 'lookupType').mockReturnValue(mockMsgType)
       const callMethodSpy = jest.spyOn(din.rpcChannel, 'callMethod').mockResolvedValue(mockResponse)
 
       // Call set_dout_state
-      const result = await din.digital_input_state(DinPins.DIN1)
+      const result = await din.digital_input_state(DINPins.DIN1)
 
       // Assertions
       expect(lookupTypeSpy).toBeCalledTimes(2)
@@ -84,7 +84,7 @@ describe('DinService test suite', () => {
       jest.spyOn(din.rpcChannel, 'callMethod').mockResolvedValue(mockResponse)
 
       // Assertions
-      await expect(din.digital_input_state(DinPins.DIN1)).rejects.toThrow('Uh oh this is an error')
+      await expect(din.digital_input_state(DINPins.DIN1)).rejects.toThrow('Uh oh this is an error')
     })
   })
 })

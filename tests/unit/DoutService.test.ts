@@ -1,7 +1,7 @@
 import * as protobuf from 'protobufjs'
 import { RpcChannel } from '../../src/rpcChannel/RpcChannel'
 import { DoutService } from '../../src/services/DoutService/DoutService'
-import { DoutPins } from '../../src/services/DoutService/DoutPins'
+import { DOUTPins } from '../../src/services/DoutService/DoutPins'
 import { DoutTriState } from '../../src/services/DoutService/DoutStates'
 import type { serverResponse, serviceRequest } from '../../src/rpcChannel/ReqRepTypes'
 
@@ -62,7 +62,7 @@ describe('DoutService test suite', () => {
         serviceName: 'DoutService',
         methodName: 'set_dout_state',
         requestMsg: {
-          doutPin: DoutPins.DOUT1,
+          doutPin: DOUTPins.DOUT1,
           state: DoutTriState.HIGH
         }
       } as unknown as serviceRequest
@@ -70,7 +70,7 @@ describe('DoutService test suite', () => {
       const callMethodSpy = jest.spyOn(dout.rpcChannel, 'callMethod').mockResolvedValue(mockResponse)
 
       // Call set_dout_state
-      const result = await dout.set_dout_state(DoutPins.DOUT1, DoutTriState.HIGH)
+      const result = await dout.set_dout_state(DOUTPins.DOUT1, DoutTriState.HIGH)
 
       // Assertions
       expect(lookupTypeSpy).toBeCalledTimes(2)
@@ -86,7 +86,7 @@ describe('DoutService test suite', () => {
       jest.spyOn(dout.rpcChannel, 'callMethod').mockResolvedValue(mockResponse)
 
       // Assertions
-      await expect(dout.set_dout_state(DoutPins.DOUT1, DoutTriState.HIGH)).rejects.toThrow('Uh oh this is an error')
+      await expect(dout.set_dout_state(DOUTPins.DOUT1, DoutTriState.HIGH)).rejects.toThrow('Uh oh this is an error')
     })
   })
 })
