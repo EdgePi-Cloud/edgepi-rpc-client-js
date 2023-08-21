@@ -3,8 +3,8 @@ export interface LEDPins{
 }
 
 export enum LEDPin{
-  LEDPin1 = 0,
-  LEDPin2 = 1,
+  LEDPin1,
+  LEDPin2,
   LEDPin3,
   LEDPin4,
   LEDPin5,

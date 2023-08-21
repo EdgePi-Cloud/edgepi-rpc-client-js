@@ -21,14 +21,14 @@ describe('LedService', ()=> {
     // Turn on LED test suite
     test.each([
         [{adc1AnalogIn: AnalogIn.AIN1}],
-        [{adc1AnalogIn: AnalogIn.AIN1}],
-        [{adc1AnalogIn: AnalogIn.AIN1}],
-        [{adc1AnalogIn: AnalogIn.AIN1}],
-        [{adc1AnalogIn: AnalogIn.AIN1}],
-        [{adc1AnalogIn: AnalogIn.AIN1}],
-        [{adc1AnalogIn: AnalogIn.AIN1}],
-        [{adc1AnalogIn: AnalogIn.AIN1}],
-      ])('should turn on led and get a success msg', async (arg)=>{
+        [{adc1AnalogIn: AnalogIn.AIN2}],
+        [{adc1AnalogIn: AnalogIn.AIN3}],
+        [{adc1AnalogIn: AnalogIn.AIN4}],
+        [{adc1AnalogIn: AnalogIn.AIN5}],
+        [{adc1AnalogIn: AnalogIn.AIN6}],
+        [{adc1AnalogIn: AnalogIn.AIN7}],
+        [{adc1AnalogIn: AnalogIn.AIN8}],
+      ])('should config ain and get sucess msg', async (arg)=>{
         let response = await adc.set_config(arg)
         expect(response).toEqual(`Successfully applied adc configurations using set_config`)
     } )
