@@ -7,6 +7,8 @@ import { DoutService } from './services/DoutService/DoutService'
 import { DinPins } from './services/DinService/DinPins'
 import { DinService } from './services/DinService/DinService'
 import { RelayService } from './services/RelayService/RelayService'
+import { AdcService } from './services/AdcService/AdcService'
+import { AnalogIn, ADC1DataRate, ADC2DataRate,  FilterMode, ConvMode} from './services/AdcService/AdcEnums'
 
 
 export {
@@ -18,5 +20,12 @@ export {
   DoutTriState,
   DinService,
   DinPins,
-  RelayService
+  RelayService,
+  AdcService,
+  AnalogIn,
+  ADC1DataRate, 
+  ADC2DataRate,  
+  FilterMode, 
+  ConvMode
+  
 }

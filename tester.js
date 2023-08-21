@@ -7,12 +7,21 @@ this.serviceProtoRoot = protobuf.loadSync(path.join(protoPckgPath,'adc.proto'))
 const requestType = this.serviceProtoRoot.lookupType('EdgePiRPC_ADC.Config')
 
 const requestMsg = {
-    conf_arg: [
+    confArg: [
         {overrideUpdatesValidation: true}
     ]
 }
 
 const msg = requestType.create(requestMsg)
 
+const buf = requestType.encode(msg).finish();
 
+const msg_dec = requestType.decode(buf)
 
+console.log(msg_dec)
+
+function a({a = 1}){
+    return {...arguments}
+}
+
+console.log(a({poo:'1'}))

@@ -2,6 +2,9 @@ import * as protobuf from 'protobufjs'
 import path from 'path'
 import { RpcChannel } from '../../rpcChannel/RpcChannel'
 import type { serverResponse, serviceRequest } from '../../rpcChannel/ReqRepTypes'
+import { createConfigArgsList } from '../util/helpers'
+import { SuccessMsg } from '../serviceTypes/successMsg'
+import { AdcConfig } from './AdcTypes'
 
 const protoPckgPath = path.join(require.resolve('@edgepi-cloud/rpc-protobuf'), '..');
 
@@ -29,6 +32,14 @@ class AdcService {
    * @returns {Promise<string>} The state of the digital input pin
   */
   async set_config(
+    {
+      adc1AnalogIn = undefined,
+      adc1DataRate = undefined,
+      adc2AnalogIn = undefined,
+      filterMode = undefined,
+      conversionMode = undefined,
+      overrideUpdatesValidation = false
+    }: {[key: string]: any}
   ): Promise<string> {
     const requestType = this.serviceProtoRoot.lookupType('EdgePiRPC_ADC.Config')
     const responseType = this.serviceProtoRoot.lookupType('EdgePiRPC_ADC.SuccessMsg')
@@ -38,11 +49,9 @@ class AdcService {
       methodName: 'set_config',
       requestMsg: /*Config Message*/{
         // Config Argument Messages
-        [
-            {
-                
-            }
-        ]
+        confArg : createConfigArgsList({
+          adc1AnalogIn,adc1DataRate,adc2AnalogIn,filterMode,conversionMode,overrideUpdatesValidation
+        })
       }
     }
     // Call method through rpc
@@ -54,7 +63,8 @@ class AdcService {
       throw Error(response.error)
     }
  
-    return ''
+    const successMsg: SuccessMsg = response.content as SuccessMsg
+    return successMsg.content
   }
 
 }
