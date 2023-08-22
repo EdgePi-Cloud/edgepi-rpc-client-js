@@ -5,7 +5,7 @@ import { LEDPins } from "../../src"
 // Disable the manual mocks
 jest.unmock('zeromq')
 
-describe('TcService', ()=> {
+describe('LedService', ()=> {
     let led: LEDService
 
     beforeAll(() =>{
