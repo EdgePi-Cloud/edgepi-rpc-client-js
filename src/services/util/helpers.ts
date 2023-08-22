@@ -7,18 +7,8 @@
  * @returns {Array} An array of individual configuration argument objects with valid values.
  */
 export function createConfigArgsList(obj:{[key: string]: any}): {[key: string]: any}[]{
-    console.log(obj)
-    let argsList: {[key: string]: any}[] = [];
-    for(const key of Object.keys(obj)){
-        console.log(key, obj[key])
-        if(obj[key] != undefined){
-            const arg: {[key: string]: any} = {};
-            arg[key] = obj[key];
-            argsList.push(
-               arg
-            )
-        }
-    }
-    console.debug(argsList)
+    const argsList = Object.keys(obj)
+        .filter(key => obj[key] !== undefined)
+        .map(key => ({ [key]: obj[key] })); 
     return argsList
 }
