@@ -16,8 +16,11 @@ describe('DacService', ()=> {
     test.each([
         [true, true],
         [false, false],
-      ])('should get the state of a digital input pin', async (setGain, autoCodeChange)=>{
+      ])('should set dac gain and get correct state from response', 
+      async (setGain, autoCodeChange)=>{
         let response = await dac.set_dac_gain(setGain, autoCodeChange)
         expect(response).toBe(setGain)
     } )
+
+
 })
