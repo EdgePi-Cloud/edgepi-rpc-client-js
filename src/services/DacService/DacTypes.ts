@@ -20,6 +20,25 @@ export interface DacChannels {
     AOUT8: DACChannel
 }
 
+export interface GetState {
+    analogOut: DACChannel
+    code?: boolean
+    voltage?: boolean
+    gain?: boolean
+}
+
 export interface GainStateMsg extends protobuf.Message{
+    gainState: boolean
+}
+
+export interface StateMsg extends protobuf.Message{
+    codeVal: number
+    voltageVal: number
+    gainState: boolean
+}
+
+export interface State {
+    codeVal: number
+    voltageVal: number
     gainState: boolean
 }
