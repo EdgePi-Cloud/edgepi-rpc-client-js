@@ -10,14 +10,14 @@ export enum aIn{
 }
 
 export interface analogIn{
-    AIN1: analogIn
-    AIN2: analogIn
-    AIN3: analogIn
-    AIN4: analogIn
-    AIN5: analogIn
-    AIN6: analogIn
-    AIN7: analogIn
-    AIN8: analogIn
+    AIN1: aIn
+    AIN2: aIn
+    AIN3: aIn
+    AIN4: aIn
+    AIN5: aIn
+    AIN6: aIn
+    AIN7: aIn
+    AIN8: aIn
 }
 
 export enum  adc1DR{
@@ -103,11 +103,15 @@ export interface convMode{
 }
 
 export interface adcConfig{
-    adc_1AnalogIn?: analogIn | undefined
-    adc_2AnalogIn?: adc1DataRate | undefined
-    adc_1DataRate?: analogIn | undefined
-    adc_2DataRate?: adc2DataRate | undefined
-    filterMode?: filterMode | undefined
-    conversionMode?: convMode | undefined
+    adc_1AnalogIn?: aIn | undefined
+    adc_2AnalogIn?: adc1DR | undefined
+    adc_1DataRate?: aIn | undefined
+    adc_2DataRate?: adc2DR | undefined
+    filterMode?: fMode | undefined
+    conversionMode?: cMode | undefined
     overrideUpdatesValidation?: boolean | undefined
+}
+
+export interface VoltageReadMsg extends protobuf.Message {
+    voltageRead: number
 }

@@ -32,7 +32,7 @@ class DoutService {
    * @param state Enum
    * @returns {Promise<String>}
    */
-  async set_dout_state(doutPin: DoutPin, state: DoutTriState): Promise<string>{
+  async setDoutState(doutPin: DoutPin, state: DoutTriState): Promise<string>{
     const requestType = this.serviceProtoRoot.lookupType('EdgePiRPC_Dout.PinAndState')
     const responseType = this.serviceProtoRoot.lookupType('EdgePiRPC_Dout.SuccessMsg')
     // Create request
@@ -45,7 +45,7 @@ class DoutService {
         }
     }
     // Call method through rpc
-    console.debug("Calling set_dout_state method through rpc channel")
+    console.info("Calling setDoutState through Rpc Channel")
     const response: serverResponse = 
         await this.rpcChannel.callMethod(serviceReq, requestType, responseType)
 

@@ -41,7 +41,11 @@ class TcService {
     }
 
     // Call method through rpc
-    console.debug("Sending temperature reading request through rpcChannel")
+    console.info(
+      `Calling TC ${methodName.replace(/_([a-z])/g, (_, group1) => group1.toUpperCase())}`+
+     ` through Rpc Channel..`
+     )
+
     const response: serverResponse =
       await this.rpcChannel.callMethod(serviceReq, requestType, responseType)
 
