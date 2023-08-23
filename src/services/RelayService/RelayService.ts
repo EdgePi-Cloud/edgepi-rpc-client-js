@@ -35,7 +35,11 @@ class RelayService {
       requestMsg: {/* Empty Msg */}
     }
     // Call method through rpc
-    console.debug("Sending  request through rpcChannel")
+    console.info(
+      `Calling Relay ${methodName.replace(/_([a-z])/g, (_, group1) => group1.toUpperCase())}`+
+     ` through Rpc Channel..`
+     )
+
     const response: serverResponse =
       await this.rpcChannel.callMethod(serviceReq, requestType, responseType)
 

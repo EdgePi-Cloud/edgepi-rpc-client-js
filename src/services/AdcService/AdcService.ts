@@ -4,7 +4,7 @@ import { RpcChannel } from '../../rpcChannel/RpcChannel'
 import type { serverResponse, serviceRequest } from '../../rpcChannel/ReqRepTypes'
 import { createConfigArgsList } from '../util/helpers'
 import { SuccessMsg } from '../serviceTypes/successMsg'
-import { adcConfig } from './AdcTypes'
+import { VoltageReadMsg, adcConfig } from './AdcTypes'
 
 const protoPckgPath = path.join(require.resolve('@edgepi-cloud/rpc-protobuf'), '..');
 
@@ -31,7 +31,7 @@ class AdcService {
    * @param DinPin Enum
    * @returns {Promise<string>} The state of the digital input pin
   */
-  async set_config(
+  async setConfig(
     {
       adc_1AnalogIn = undefined,
       adc_1DataRate = undefined,
@@ -47,7 +47,7 @@ class AdcService {
     const argsList = createConfigArgsList({
       adc_1AnalogIn,adc_1DataRate,adc_2AnalogIn,filterMode,conversionMode,overrideUpdatesValidation
     })
-    console.log(argsList)
+
     const serviceReq: serviceRequest = {
       serviceName: this.serviceName,
       methodName: 'set_config',
@@ -56,9 +56,9 @@ class AdcService {
         confArg : argsList
       }
     }
-    console.log(serviceReq);
+
     // Call method through rpc
-    console.debug("Sending  request through rpcChannel")
+    console.info("Calling ADC setConfig through Rpc Channel")
     const response: serverResponse =
       await this.rpcChannel.callMethod(serviceReq, requestType, responseType)
 
@@ -70,6 +70,28 @@ class AdcService {
     return successMsg.content
   }
 
+  async singleSample(): Promise<number> {
+    const requestType = this.serviceProtoRoot.lookupType('EdgePiRPC_ADC.EmptyMsg')
+    const responseType = this.serviceProtoRoot.lookupType('EdgePiRPC_ADC.VoltageRead')
+    // Create request
+    const serviceReq: serviceRequest = {
+      serviceName: this.serviceName,
+      methodName: 'single_sample',
+      requestMsg: {/**Empty Msg */}
+  }
+
+    // Call method through rpc
+    console.info("Calling ADC singleSample through Rpc Channel..")
+    const response: serverResponse =
+      await this.rpcChannel.callMethod(serviceReq, requestType, responseType)
+
+    if (response.error !== undefined) {
+      throw Error(response.error)
+    }
+
+    const stateMsg: VoltageReadMsg = response.content as VoltageReadMsg
+    return stateMsg.voltageRead
+  }
 }
 
 export { AdcService }

@@ -111,3 +111,7 @@ export interface adcConfig{
     conversionMode?: cMode | undefined
     overrideUpdatesValidation?: boolean | undefined
 }
+
+export interface VoltageReadMsg extends protobuf.Message {
+    voltageRead: number
+}

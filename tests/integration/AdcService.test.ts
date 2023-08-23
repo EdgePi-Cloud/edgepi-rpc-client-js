@@ -67,7 +67,12 @@ describe('AdcService', ()=> {
         ]
         
       ])('should config ain and get sucess msg', async (arg)=>{
-        let response = await adc.set_config(arg)
+        const response = await adc.setConfig(arg)
         expect(response).toEqual(`Successfully applied adc configurations using set_config`)
     } )
+
+    it('should call singleSample and get voltage reading', async ()=>{
+        const voltage = await adc.singleSample()
+        expect(typeof voltage == 'number').toBe(true)
+    })
 })

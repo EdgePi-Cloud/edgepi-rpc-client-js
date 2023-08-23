@@ -5,7 +5,7 @@ import { RelayService } from "../../src";
 // Disable the manual mocks
 jest.unmock('zeromq')
 
-describe('TcService', ()=> {
+describe('RelayService', ()=> {
     let relay: RelayService
 
     beforeAll(() =>{
