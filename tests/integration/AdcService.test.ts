@@ -12,60 +12,53 @@ describe('AdcService', ()=> {
         adc = new AdcService('tcp://localhost:5555');
         
     })
-
-    // Reset configs after test
-    afterAll(async ()=> {
-        //
-    })
     
     // adc set_config
     test.each([
-        [
-            {"adc_1AnalogIn": AnalogIn.AIN1},
-            {"adc_1AnalogIn": AnalogIn.AIN2},
-            {"adc_1AnalogIn": AnalogIn.AIN3},
-            {"adc_1AnalogIn": AnalogIn.AIN4},
-            {"adc_1AnalogIn": AnalogIn.AIN5},
-            {"adc_1AnalogIn": AnalogIn.AIN6},
-            {"adc_1AnalogIn": AnalogIn.AIN7},
-            {"adc_1AnalogIn": AnalogIn.AIN8},
-            {"adc2_AnalogIn": AnalogIn.AIN1},
-            {"adc2_AnalogIn": AnalogIn.AIN2},
-            {"adc2_AnalogIn": AnalogIn.AIN3},
-            {"adc2_AnalogIn": AnalogIn.AIN4},
-            {"adc2_AnalogIn": AnalogIn.AIN5},
-            {"adc2_AnalogIn": AnalogIn.AIN6},
-            {"adc2_AnalogIn": AnalogIn.AIN7},
-            {"adc2_AnalogIn": AnalogIn.AIN8},
-            {"adc1_DataRate": ADC1DataRate.SPS_2P5},
-            {"adc1_DataRate": ADC1DataRate.SPS_5},
-            {"adc1_DataRate": ADC1DataRate.SPS_10_},
-            {"adc1_DataRate": ADC1DataRate.SPS_16P6},
-            {"adc1_DataRate": ADC1DataRate.SPS_20},
-            {"adc1_DataRate": ADC1DataRate.SPS_50},
-            {"adc1_DataRate": ADC1DataRate.SPS_60},
-            {"adc1_DataRate": ADC1DataRate.SPS_100_},
-            {"adc1_DataRate": ADC1DataRate.SPS_400_},
-            {"adc1_DataRate": ADC1DataRate.SPS_1200},
-            {"adc1_DataRate": ADC1DataRate.SPS_2400},
-            {"adc1_DataRate": ADC1DataRate.SPS_4800},
-            {"adc1_DataRate": ADC1DataRate.SPS_7200},
-            {"adc1_DataRate": ADC1DataRate.SPS_14400},
-            {"adc1_DataRate": ADC1DataRate.SPS_19200},
-            {"adc1_DataRate": ADC1DataRate.SPS_3840},
-            {"adc2_DataRate": ADC2DataRate.SPS_10},
-            {"adc2_DataRate": ADC2DataRate.SPS_100},
-            {"adc2_DataRate": ADC2DataRate.SPS_400},
-            {"adc2_DataRate": ADC2DataRate.SPS_800},
-            {"filterMode": FilterMode.SINC1},
-            {"filterMode": FilterMode.SINC2},
-            {"filterMode": FilterMode.SINC3},
-            {"filterMode": FilterMode.SINC4},
-            {"filterMode": FilterMode.FIR},
-            {"conversionMode": ConvMode.PULSE},
-            {"conversionMode": ConvMode.CONTINUOUS}
-        ]
-        
+            [{adc_1AnalogIn: AnalogIn.AIN1}],
+            [{adc_1AnalogIn: AnalogIn.AIN2}],
+            [{adc_1AnalogIn: AnalogIn.AIN3}],
+            [{adc_1AnalogIn: AnalogIn.AIN4}],
+            [{adc_1AnalogIn: AnalogIn.AIN5}],
+            [{adc_1AnalogIn: AnalogIn.AIN6}],
+            [{adc_1AnalogIn: AnalogIn.AIN7}],
+            [{adc_1AnalogIn: AnalogIn.AIN8}],
+            [{adc_2AnalogIn: AnalogIn.AIN1}],
+            [{adc_2AnalogIn: AnalogIn.AIN2}],
+            [{adc_2AnalogIn: AnalogIn.AIN3}],
+            [{adc_2AnalogIn: AnalogIn.AIN4}],
+            [{adc_2AnalogIn: AnalogIn.AIN5}],
+            [{adc_2AnalogIn: AnalogIn.AIN6}],
+            [{adc_2AnalogIn: AnalogIn.AIN7}],
+            [{adc_2AnalogIn: AnalogIn.AIN8}],
+            [{adc_1DataRate: ADC1DataRate.SPS_2P5}],
+            [{adc_1DataRate: ADC1DataRate.SPS_5}],
+            [{adc_1DataRate: ADC1DataRate.SPS_10_}],
+            [{adc_1DataRate: ADC1DataRate.SPS_16P6}],
+            [{adc_1DataRate: ADC1DataRate.SPS_20}],
+            [{adc_1DataRate: ADC1DataRate.SPS_50}],
+            [{adc_1DataRate: ADC1DataRate.SPS_60}],
+            [{adc_1DataRate: ADC1DataRate.SPS_100_}],
+            [{adc_1DataRate: ADC1DataRate.SPS_400_}],
+            [{adc_1DataRate: ADC1DataRate.SPS_1200}],
+            [{adc_1DataRate: ADC1DataRate.SPS_2400}],
+            [{adc_1DataRate: ADC1DataRate.SPS_4800}],
+            [{adc_1DataRate: ADC1DataRate.SPS_7200}],
+            [{adc_1DataRate: ADC1DataRate.SPS_14400}],
+            [{adc_1DataRate: ADC1DataRate.SPS_19200}],
+            [{adc_1DataRate: ADC1DataRate.SPS_38400}],
+            [{adc_2DataRate: ADC2DataRate.SPS_10}],
+            [{adc_2DataRate: ADC2DataRate.SPS_100}],
+            [{adc_2DataRate: ADC2DataRate.SPS_400}],
+            [{adc_2DataRate: ADC2DataRate.SPS_800}],
+            [{filterMode: FilterMode.SINC1}],
+            [{filterMode: FilterMode.SINC2}],
+            [{filterMode: FilterMode.SINC3}],
+            [{filterMode: FilterMode.SINC4}],
+            [{filterMode: FilterMode.FIR}],
+            [{conversionMode: ConvMode.PULSE}],
+            [{conversionMode: ConvMode.CONTINUOUS}]
+
       ])('should config ain and get sucess msg', async (arg)=>{
         const response = await adc.setConfig(arg)
         expect(response).toEqual(`Successfully applied adc configurations using set_config`)
