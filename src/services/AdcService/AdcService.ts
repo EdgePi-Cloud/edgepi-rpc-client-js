@@ -4,7 +4,7 @@ import { RpcChannel } from '../../rpcChannel/RpcChannel'
 import type { serverResponse, serviceRequest } from '../../rpcChannel/ReqRepTypes'
 import { createConfigArgsList } from '../util/helpers'
 import { SuccessMsg } from '../serviceTypes/successMsg'
-import { VoltageReadMsg, adcConfig } from './AdcTypes'
+import { VoltageReadMsg, aIn, adc1DR, adc2DR, adcConfig, cMode } from './AdcTypes'
 
 const protoPckgPath = path.join(require.resolve('@edgepi-cloud/rpc-protobuf'), '..');
 
@@ -13,10 +13,10 @@ const protoPckgPath = path.join(require.resolve('@edgepi-cloud/rpc-protobuf'), '
  * @param serverEndpoint String representation of the RPC Server's endpoint
  */
 class AdcService {
-  rpcProtoRoot: protobuf.Root
-  serviceProtoRoot: protobuf.Root
-  serviceName: string
-  rpcChannel: RpcChannel
+  private rpcProtoRoot: protobuf.Root
+  private serviceProtoRoot: protobuf.Root
+  private serviceName: string
+  private rpcChannel: RpcChannel
 
   constructor (serverEndpoint: string) {
     this.rpcProtoRoot = protobuf.loadSync(path.join(protoPckgPath,'rpc.proto'))
@@ -26,27 +26,41 @@ class AdcService {
     console.info(this.serviceName, "initialized")
   }
 
-   /**
-   * @async Calls the EdgePi set_config adc SDK method through RPC
-   * @param DinPin Enum
-   * @returns {Promise<string>} The state of the digital input pin
+
+
+  /**
+   * @async Calls the ADC set_config SDK method through RPC
+   * @param {adcConfig} adcConfig Configuration options for the ADC.
+   * @param {aIn} adcConfig.adc_1AnalogIn Analog input for ADC channel 1. Default is undefined.
+   * @param {aIn} adcConfig.adc_2AnalogIn Analog input for ADC channel 2. Default is undefined.
+   * @param {adc1DR} adcConfig.adc_1DataRate Data rate for ADC channel 1. Default is undefined.
+   * @param {adc2DR} adcConfig.adc_2DataRate Data rate for ADC channel 2. Default is undefined.
+   * @param {fMode} adcConfig.filterMode Filter mode for ADC. Default is undefined.
+   * @param {cMode} adcConfig.conversionMode Conversion mode for ADC. Default is undefined.
+   * @param {boolean} adcConfig.overrideUpdatesValidation Override updates validation. Default is undefined.
+   * 
+   * @returns {Promise<string>} A Promise that resolves with a success message upon successful configuration.
   */
   async setConfig(
     {
       adc_1AnalogIn = undefined,
-      adc_1DataRate = undefined,
       adc_2AnalogIn = undefined,
+      adc_1DataRate = undefined,
+      adc_2DataRate = undefined,
       filterMode = undefined,
       conversionMode = undefined,
       overrideUpdatesValidation = undefined
     }: adcConfig
   ): Promise<string> {
+    
     const requestType = this.serviceProtoRoot.lookupType('EdgePiRPC_ADC.Config')
     const responseType = this.serviceProtoRoot.lookupType('EdgePiRPC_ADC.SuccessMsg')
     // Create request
-    const argsList = createConfigArgsList({
-      adc_1AnalogIn,adc_1DataRate,adc_2AnalogIn,filterMode,conversionMode,overrideUpdatesValidation
-    })
+    const args = {
+      adc_1AnalogIn, adc_1DataRate, adc_2AnalogIn, adc_2DataRate,
+      filterMode, conversionMode, overrideUpdatesValidation
+    }
+    const argsList = createConfigArgsList(args)
 
     const serviceReq: serviceRequest = {
       serviceName: this.serviceName,
@@ -58,7 +72,10 @@ class AdcService {
     }
 
     // Call method through rpc
-    console.info("Calling ADC setConfig through Rpc Channel")
+    console.info("Calling ADC setConfig through Rpc Channel with the following configurations: {"
+    + `${JSON.stringify(args)}` + "\n}")
+
+
     const response: serverResponse =
       await this.rpcChannel.callMethod(serviceReq, requestType, responseType)
 
@@ -70,6 +87,10 @@ class AdcService {
     return successMsg.content
   }
 
+  /**
+   * Calls the ADC single_sample SDK method through RPC
+   * @returns {Promise<number>} Voltage reading
+   */
   async singleSample(): Promise<number> {
     const requestType = this.serviceProtoRoot.lookupType('EdgePiRPC_ADC.EmptyMsg')
     const responseType = this.serviceProtoRoot.lookupType('EdgePiRPC_ADC.VoltageRead')

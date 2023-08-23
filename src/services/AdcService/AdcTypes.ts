@@ -56,7 +56,7 @@ export interface adc1DataRate {
     SPS_7200: adc1DR
     SPS_14400: adc1DR
     SPS_19200: adc1DR
-    SPS_3840: adc1DR
+    SPS_38400: adc1DR
 }
 
 export enum adc2DR {
@@ -104,8 +104,8 @@ export interface convMode{
 
 export interface adcConfig{
     adc_1AnalogIn?: aIn | undefined
-    adc_2AnalogIn?: adc1DR | undefined
-    adc_1DataRate?: aIn | undefined
+    adc_2AnalogIn?: aIn | undefined
+    adc_1DataRate?: adc1DR | undefined
     adc_2DataRate?: adc2DR | undefined
     filterMode?: fMode | undefined
     conversionMode?: cMode | undefined
