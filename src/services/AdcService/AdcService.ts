@@ -4,7 +4,7 @@ import { RpcChannel } from '../../rpcChannel/RpcChannel'
 import type { serverResponse, serviceRequest } from '../../rpcChannel/ReqRepTypes'
 import { createConfigArgsList } from '../util/helpers'
 import { SuccessMsg } from '../serviceTypes/successMsg'
-import { VoltageReadMsg, aIn, adc1DR, adc2DR, adcConfig, cMode } from './AdcTypes'
+import { VoltageReadMsg, adcConfig } from './AdcTypes'
 
 const protoPckgPath = path.join(require.resolve('@edgepi-cloud/rpc-protobuf'), '..');
 
