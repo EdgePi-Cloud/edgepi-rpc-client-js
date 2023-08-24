@@ -5,7 +5,7 @@ import { DINPins, DinService } from "../../src";
 // Disable the manual mocks
 jest.unmock('zeromq')
 
-describe('TcService', ()=> {
+describe('DinService', ()=> {
     let din: DinService
 
     beforeAll(() =>{
@@ -24,7 +24,7 @@ describe('TcService', ()=> {
         [DINPins.DIN7],
         [DINPins.DIN8],
       ])('should get the state of a digital input pin', async (DinPin)=>{
-        let response = await din.digital_input_state(DinPin)
+        let response = await din.digitalInputState(DinPin)
         expect(typeof response == 'boolean').toBe(true)
     } )
 })

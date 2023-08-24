@@ -39,7 +39,7 @@ describe('DoutService', ()=> {
         [DOUTPins.DOUT7],
         [DOUTPins.DOUT8]
     ])('should set dout pin to HI_Z and and get correct successmsg', async (doutPin) => {
-        const response = await dout.set_dout_state(doutPin, DoutTriState.HI_Z)
+        const response = await dout.setDoutState(doutPin, DoutTriState.HI_Z)
         expect(response).toEqual(
             `Successfully set ${pinEnumNames[doutPin]} to ${stateEnumNames[DoutTriState.HI_Z]}.`)
     })
@@ -55,7 +55,7 @@ describe('DoutService', ()=> {
         [DOUTPins.DOUT7],
         [DOUTPins.DOUT8]
     ])('should set dout pin to HIGH and and get correct successmsg', async (doutPin) => {
-        const response = await dout.set_dout_state(doutPin, DoutTriState.HIGH)
+        const response = await dout.setDoutState(doutPin, DoutTriState.HIGH)
         expect(response).toEqual(
             `Successfully set ${pinEnumNames[doutPin]} to ${stateEnumNames[DoutTriState.HIGH]}.`)
     })
@@ -71,7 +71,7 @@ describe('DoutService', ()=> {
         [DOUTPins.DOUT7],
         [DOUTPins.DOUT8]
     ])('should set dout pin to LOW and and get correct successmsg', async (doutPin) => {
-        const response = await dout.set_dout_state(doutPin, DoutTriState.LOW)
+        const response = await dout.setDoutState(doutPin, DoutTriState.LOW)
         expect(response).toEqual(
             `Successfully set ${pinEnumNames[doutPin]} to ${stateEnumNames[DoutTriState.LOW]}.`)
     })

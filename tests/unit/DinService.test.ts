@@ -68,7 +68,7 @@ describe('DinService test suite', () => {
       const callMethodSpy = jest.spyOn(din.rpcChannel, 'callMethod').mockResolvedValue(mockResponse)
 
       // Call set_dout_state
-      const result = await din.digital_input_state(DINPins.DIN1)
+      const result = await din.digitalInputState(DINPins.DIN1)
 
       // Assertions
       expect(lookupTypeSpy).toBeCalledTimes(2)
@@ -84,7 +84,7 @@ describe('DinService test suite', () => {
       jest.spyOn(din.rpcChannel, 'callMethod').mockResolvedValue(mockResponse)
 
       // Assertions
-      await expect(din.digital_input_state(DINPins.DIN1)).rejects.toThrow('Uh oh this is an error')
+      await expect(din.digitalInputState(DINPins.DIN1)).rejects.toThrow('Uh oh this is an error')
     })
   })
 })

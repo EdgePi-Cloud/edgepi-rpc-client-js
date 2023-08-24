@@ -30,7 +30,7 @@ class DinService {
    * @param DinPin Enum
    * @returns {Promise<boolean>} The state of the digital input pin
   */
-  async digital_input_state(dinPin: DinPin): Promise<boolean> {
+  async digitalInputState(dinPin: DinPin): Promise<boolean> {
     const requestType = this.serviceProtoRoot.lookupType('EdgePiRPC_DIN.DinPin')
     const responseType = this.serviceProtoRoot.lookupType('EdgePiRPC_DIN.State')
     // Create request
@@ -40,7 +40,7 @@ class DinService {
       requestMsg: {dinPin}
     }
     // Call method through rpc
-    console.debug("Sending  request through rpcChannel")
+    console.info("Calling digitalInputState through Rpc Channel..")
     const response: serverResponse =
       await this.rpcChannel.callMethod(serviceReq, requestType, responseType)
 
