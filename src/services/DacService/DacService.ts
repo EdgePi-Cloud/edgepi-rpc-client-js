@@ -8,7 +8,7 @@ import { SuccessMsg } from '../serviceTypes/successMsg'
 const protoPckgPath = path.join(require.resolve('@edgepi-cloud/rpc-protobuf'), '..');
 
 /**
- * @constructor DinService class for calling EdgePi digital input SDK methods through RPC
+ * @constructor DacService class for calling EdgePi digital input SDK methods through RPC
  * @param serverEndpoint String representation of the RPC Server's endpoint
  */
 class DacService {
