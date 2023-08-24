@@ -70,7 +70,7 @@ describe('DoutService test suite', () => {
       const callMethodSpy = jest.spyOn(dout.rpcChannel, 'callMethod').mockResolvedValue(mockResponse)
 
       // Call set_dout_state
-      const result = await dout.set_dout_state(DOUTPins.DOUT1, DoutTriState.HIGH)
+      const result = await dout.setDoutState(DOUTPins.DOUT1, DoutTriState.HIGH)
 
       // Assertions
       expect(lookupTypeSpy).toBeCalledTimes(2)
@@ -86,7 +86,7 @@ describe('DoutService test suite', () => {
       jest.spyOn(dout.rpcChannel, 'callMethod').mockResolvedValue(mockResponse)
 
       // Assertions
-      await expect(dout.set_dout_state(DOUTPins.DOUT1, DoutTriState.HIGH)).rejects.toThrow('Uh oh this is an error')
+      await expect(dout.setDoutState(DOUTPins.DOUT1, DoutTriState.HIGH)).rejects.toThrow('Uh oh this is an error')
     })
   })
 })

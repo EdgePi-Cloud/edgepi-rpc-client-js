@@ -12,10 +12,10 @@ const protoPckgPath = path.join(require.resolve('@edgepi-cloud/rpc-protobuf'), '
  * @param serverEndpoint String representation of the RPC Server's endpoint
  */
 class RelayService {
-  private rpcProtoRoot: protobuf.Root
-  private serviceProtoRoot: protobuf.Root
-  private serviceName: string
-  private rpcChannel: RpcChannel
+  rpcProtoRoot: protobuf.Root
+  serviceProtoRoot: protobuf.Root
+  serviceName: string
+  rpcChannel: RpcChannel
 
   constructor (serverEndpoint: string) {
     this.rpcProtoRoot = protobuf.loadSync(path.join(protoPckgPath,'rpc.proto'))
