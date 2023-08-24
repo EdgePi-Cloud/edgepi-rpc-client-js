@@ -2,8 +2,13 @@
 JavaScript RPC Client for EdgePi RPC Server
 
 ## Installing as an NPM module
+If you are not on a debian system, you can simply run the following npm command on any machine:
+```
+npm install @edgepi-cloud/edgepi-rpc
+```
+## Installing as an NPM module on Debian systems
 
-There is currently an issue regularly installing zeromq as a dependency. The culprit is the following error:
+There is currently an issue regularly installing zeromq as a dependency on debian systems. The culprit is the following error:
 ```
 symbol lookup error: /**/node_modules/zeromq/build/Release/zeromq.node: undefined symbol: sodium_init
 ```
