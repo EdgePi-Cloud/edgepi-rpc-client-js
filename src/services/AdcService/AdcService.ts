@@ -3,8 +3,8 @@ import path from 'path'
 import { RpcChannel } from '../../rpcChannel/RpcChannel'
 import type { serverResponse, serviceRequest } from '../../rpcChannel/ReqRepTypes'
 import { createConfigArgsList } from '../util/helpers'
-import { SuccessMsg } from '../serviceTypes/successMsg'
-import { VoltageReadMsg, adcConfig } from './AdcTypes'
+import type { SuccessMsg } from '../serviceTypes/successMsg'
+import type { TempReading, VoltageReadMsg, adc, adcConfig, diff } from './AdcTypes'
 
 const protoPckgPath = path.join(require.resolve('@edgepi-cloud/rpc-protobuf'), '..');
 
@@ -23,10 +23,8 @@ class AdcService {
     this.serviceProtoRoot = protobuf.loadSync(path.join(protoPckgPath,'adc.proto'))
     this.serviceName = 'AdcService'
     this.rpcChannel = new RpcChannel(serverEndpoint, this.rpcProtoRoot)
-    console.info(this.serviceName, "initialized")
+    console.info(this.serviceName, 'initialized')
   }
-
-
 
   /**
    * @async Calls the ADC set_config SDK method through RPC
@@ -38,10 +36,9 @@ class AdcService {
    * @param {fMode} adcConfig.filterMode Filter mode for ADC. Default is undefined.
    * @param {cMode} adcConfig.conversionMode Conversion mode for ADC. Default is undefined.
    * @param {boolean} adcConfig.overrideUpdatesValidation Override updates validation. Default is undefined.
-   * 
    * @returns {Promise<string>} A Promise that resolves with a success message upon successful configuration.
   */
-  async setConfig(
+  async setConfig (
     {
       adc_1AnalogIn = undefined,
       adc_2AnalogIn = undefined,
@@ -52,7 +49,6 @@ class AdcService {
       overrideUpdatesValidation = undefined
     }: adcConfig
   ): Promise<string> {
-    
     const requestType = this.serviceProtoRoot.lookupType('EdgePiRPC_ADC.Config')
     const responseType = this.serviceProtoRoot.lookupType('EdgePiRPC_ADC.SuccessMsg')
     // Create request
@@ -65,16 +61,15 @@ class AdcService {
     const serviceReq: serviceRequest = {
       serviceName: this.serviceName,
       methodName: 'set_config',
-      requestMsg: /*Config Message*/{
+      requestMsg: /* Config Message */ {
         // Config Argument Messages
-        confArg : argsList
+        confArg: argsList
       }
     }
 
     // Call method through rpc
-    console.info("Calling ADC setConfig through Rpc Channel with the following configurations: {"
-    + `${JSON.stringify(args)}` + "\n}")
-
+    console.info('Calling ADC setConfig through Rpc Channel with the following configurations: {' +
+     `${JSON.stringify(args)}` + '\n}')
 
     const response: serverResponse =
       await this.rpcChannel.callMethod(serviceReq, requestType, responseType)
@@ -82,7 +77,7 @@ class AdcService {
     if (response.error !== undefined) {
       throw Error(response.error)
     }
- 
+
     const successMsg: SuccessMsg = response.content as SuccessMsg
     return successMsg.content
   }
@@ -91,18 +86,18 @@ class AdcService {
    * Calls the ADC single_sample SDK method through RPC
    * @returns {Promise<number>} Voltage reading
    */
-  async singleSample(): Promise<number> {
+  async singleSample (): Promise<number> {
     const requestType = this.serviceProtoRoot.lookupType('EdgePiRPC_ADC.EmptyMsg')
     const responseType = this.serviceProtoRoot.lookupType('EdgePiRPC_ADC.VoltageRead')
     // Create request
     const serviceReq: serviceRequest = {
       serviceName: this.serviceName,
       methodName: 'single_sample',
-      requestMsg: {/**Empty Msg */}
-  }
+      requestMsg: {/** Empty Msg */}
+    }
 
     // Call method through rpc
-    console.info("Calling ADC singleSample through Rpc Channel..")
+    console.info('Calling ADC singleSample through Rpc Channel..')
     const response: serverResponse =
       await this.rpcChannel.callMethod(serviceReq, requestType, responseType)
 
@@ -112,6 +107,84 @@ class AdcService {
 
     const stateMsg: VoltageReadMsg = response.content as VoltageReadMsg
     return stateMsg.voltageRead
+  }
+
+  async selectDifferential (adc: adc, diffMode: diff): Promise<string> {
+    const requestType = this.serviceProtoRoot.lookupType('EdgePiRPC_ADC.DiffConfig')
+    const responseType = this.serviceProtoRoot.lookupType('EdgePiRPC_ADC.SuccessMsg')
+
+    // Create request
+    const serviceReq: serviceRequest = {
+      serviceName: this.serviceName,
+      methodName: 'select_differential',
+      requestMsg: {
+        adcNum: adc,
+        diffMode
+      }
+    }
+
+    // Call method through rpc
+    console.info('Calling ADC selectDifferential through Rpc Channel..')
+    const response: serverResponse =
+      await this.rpcChannel.callMethod(serviceReq, requestType, responseType)
+
+    if (response.error !== undefined) {
+      throw Error(response.error)
+    }
+
+    const successMsg: SuccessMsg = response.content as SuccessMsg
+    return successMsg.content
+  }
+
+  async setRtd (setRtd: boolean, adc: adc): Promise<string> {
+    const requestType = this.serviceProtoRoot.lookupType('EdgePiRPC_ADC.RtdConfig')
+    const responseType = this.serviceProtoRoot.lookupType('EdgePiRPC_ADC.SuccessMsg')
+
+    // Create request
+    const serviceReq: serviceRequest = {
+      serviceName: this.serviceName,
+      methodName: 'set_rtd',
+      requestMsg: {
+        setRtd,
+        adcNum: adc
+      }
+    }
+
+    // Call method through rpc
+    console.info('Calling ADC setRtd through Rpc Channel..')
+    const response: serverResponse =
+      await this.rpcChannel.callMethod(serviceReq, requestType, responseType)
+
+    if (response.error !== undefined) {
+      throw Error(response.error)
+    }
+
+    const successMsg: SuccessMsg = response.content as SuccessMsg
+    return successMsg.content
+  }
+
+  async singleSampleRtd (): Promise<number> {
+    const requestType = this.serviceProtoRoot.lookupType('EdgePiRPC_ADC.EmptyMsg')
+    const responseType = this.serviceProtoRoot.lookupType('EdgePiRPC_ADC.TempReading')
+
+    // Create request
+    const serviceReq: serviceRequest = {
+      serviceName: this.serviceName,
+      methodName: 'single_sample_rtd',
+      requestMsg: { /** Empty Msg */}
+    }
+
+    // Call method through rpc
+    console.info('Calling ADC singleSampleRtd through Rpc Channel..')
+    const response: serverResponse =
+      await this.rpcChannel.callMethod(serviceReq, requestType, responseType)
+
+    if (response.error !== undefined) {
+      throw Error(response.error)
+    }
+
+    const successMsg: TempReading = response.content as TempReading
+    return successMsg.temp
   }
 }
 

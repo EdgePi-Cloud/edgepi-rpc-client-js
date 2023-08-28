@@ -138,3 +138,7 @@ export interface diffMode {
   DIFF_4: diff
   DIFF_OFF: diff
 }
+
+export interface TempReading extends protobuf.Message {
+  temp: number
+}
