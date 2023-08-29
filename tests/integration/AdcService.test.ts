@@ -1,5 +1,6 @@
 import { AdcService } from "../../src"
 import { ADC1DataRate, ADC2DataRate, AnalogIn, FilterMode, ConvMode } from "../../src"
+import { ADCNum, DiffMode } from "../../src/services/AdcService/AdcEnums"
 
 
 // Disable the manual mocks
@@ -9,7 +10,7 @@ describe('AdcService', ()=> {
     let adc: AdcService
 
     beforeAll(() =>{
-        adc = new AdcService('tcp://localhost:5555');
+        adc = new AdcService('tcp://192.168.1.216:5555');
         
     })
     
@@ -65,7 +66,38 @@ describe('AdcService', ()=> {
     } )
 
     it('should call singleSample and get voltage reading', async ()=>{
+        // config pulse mode
+        await adc.setConfig({conversionMode:ConvMode.PULSE})
+
+        // voltage reading
         const voltage = await adc.singleSample()
-        expect(typeof voltage == 'number').toBe(true)
+
+        expect(typeof voltage === 'number').toBe(true)
+    })
+
+    test.each([
+        [ADCNum.ADC_1, DiffMode.DIFF_1, 'DiffMode.DIFF_1'],
+        [ADCNum.ADC_1, DiffMode.DIFF_2, 'DiffMode.DIFF_2'],
+        [ADCNum.ADC_1, DiffMode.DIFF_3, 'DiffMode.DIFF_3'],
+        [ADCNum.ADC_1, DiffMode.DIFF_4, 'DiffMode.DIFF_4'],
+        [ADCNum.ADC_1, DiffMode.DIFF_OFF, 'DiffMode.DIFF_OFF'],
+        [ADCNum.ADC_2, DiffMode.DIFF_1, 'DiffMode.DIFF_1'],
+        [ADCNum.ADC_2, DiffMode.DIFF_2, 'DiffMode.DIFF_2'],
+        [ADCNum.ADC_2, DiffMode.DIFF_3, 'DiffMode.DIFF_3'],
+        [ADCNum.ADC_2, DiffMode.DIFF_4, 'DiffMode.DIFF_4'],
+        [ADCNum.ADC_2, DiffMode.DIFF_OFF, 'DiffMode.DIFF_OFF'],
+    ])('it should set differential and get a reading', async (adcNum, diff, diff_str) => {
+        // config pulse mode
+        await adc.setConfig({conversionMode:ConvMode.PULSE})
+
+        // Select differential
+        const response = await adc.selectDifferential(adcNum, diff)
+        expect(response).toEqual(`Successfully selected ${diff_str}.`)
+
+        // Get reading (if not diff_off)
+        if(diff !== DiffMode.DIFF_OFF && adcNum != ADCNum.ADC_2){
+            const voltage = await adc.singleSample()
+            expect(typeof voltage === 'number').toBe(true)
+        }
     })
 })

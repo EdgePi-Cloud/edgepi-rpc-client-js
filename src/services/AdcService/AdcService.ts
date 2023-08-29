@@ -119,7 +119,7 @@ class AdcService {
       methodName: 'select_differential',
       requestMsg: {
         adcNum: adc,
-        diffMode
+        diff: diffMode
       }
     }
 
