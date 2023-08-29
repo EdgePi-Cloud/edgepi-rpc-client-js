@@ -186,6 +186,68 @@ class AdcService {
     const successMsg: TempReading = response.content as TempReading
     return successMsg.temp
   }
+
+  private async startOrStopConversions (methodName: string, adc: adc): Promise<string> {
+    const requestType = this.serviceProtoRoot.lookupType('EdgePiRPC_ADC.ADC')
+    const responseType = this.serviceProtoRoot.lookupType('EdgePiRPC_ADC.SuccessMsg')
+
+    // Create request
+    const serviceReq: serviceRequest = {
+      serviceName: this.serviceName,
+      methodName,
+      requestMsg: {
+        adcNum: adc
+      }
+    }
+
+    // Call method through rpc
+    console.info(
+      `Calling ADC ${methodName.replace(/_([a-z])/g, (_, group1) => group1.toUpperCase())}` +
+     ' through Rpc Channel..'
+    )
+    const response: serverResponse =
+      await this.rpcChannel.callMethod(serviceReq, requestType, responseType)
+
+    if (response.error !== undefined) {
+      throw Error(response.error)
+    }
+
+    const successMsg: SuccessMsg = response.content as SuccessMsg
+    return successMsg.content
+  }
+
+  async startConversions (adc: adc): Promise<string> {
+    return await this.startOrStopConversions('start_conversions', adc)
+  }
+
+  async stopConversions (adc: adc): Promise<string> {
+    return await this.startOrStopConversions('stop_conversions', adc)
+  }
+
+  async readVoltage (adc: adc): Promise<number> {
+    const requestType = this.serviceProtoRoot.lookupType('EdgePiRPC_ADC.ADC')
+    const responseType = this.serviceProtoRoot.lookupType('EdgePiRPC_ADC.VoltageRead')
+    // Create request
+    const serviceReq: serviceRequest = {
+      serviceName: this.serviceName,
+      methodName: 'read_voltage',
+      requestMsg: {
+        adcNum: adc
+      }
+    }
+
+    // Call method through rpc
+    console.info('Calling ADC readVoltage through Rpc Channel..')
+    const response: serverResponse =
+      await this.rpcChannel.callMethod(serviceReq, requestType, responseType)
+
+    if (response.error !== undefined) {
+      throw Error(response.error)
+    }
+
+    const stateMsg: VoltageReadMsg = response.content as VoltageReadMsg
+    return stateMsg.voltageRead
+  }
 }
 
 export { AdcService }

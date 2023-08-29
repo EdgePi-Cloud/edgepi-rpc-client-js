@@ -86,7 +86,7 @@ describe('AdcService', ()=> {
         [ADCNum.ADC_2, DiffMode.DIFF_3, 'DiffMode.DIFF_3'],
         [ADCNum.ADC_2, DiffMode.DIFF_4, 'DiffMode.DIFF_4'],
         [ADCNum.ADC_2, DiffMode.DIFF_OFF, 'DiffMode.DIFF_OFF'],
-    ])('it should set differential and get a reading', async (adcNum, diff, diff_str) => {
+    ])('should run continuous differentials', async (adcNum, diff, diff_str) => {
         // config pulse mode
         await adc.setConfig({conversionMode:ConvMode.PULSE})
 
