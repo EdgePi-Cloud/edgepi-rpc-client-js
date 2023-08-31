@@ -10,7 +10,7 @@ describe('AdcService', ()=> {
     let adc: AdcService
 
     beforeAll(() =>{
-        adc = new AdcService('tcp://192.168.1.216:5555');
+        adc = new AdcService('tcp://localhost:5555');
         
     })
     
