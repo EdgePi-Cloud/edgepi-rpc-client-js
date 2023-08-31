@@ -248,6 +248,30 @@ class AdcService {
     const stateMsg: VoltageReadMsg = response.content as VoltageReadMsg
     return stateMsg.voltageRead
   }
+
+  async readRtdTemperature (): Promise<number> {
+    const requestType = this.serviceProtoRoot.lookupType('EdgePiRPC_ADC.EmptyMsg')
+    const responseType = this.serviceProtoRoot.lookupType('EdgePiRPC_ADC.TempReading')
+
+    // Create request
+    const serviceReq: serviceRequest = {
+      serviceName: this.serviceName,
+      methodName: 'read_rtd_temperature',
+      requestMsg: { /** Empty Msg */}
+    }
+
+    // Call method through rpc
+    console.info('Calling ADC read_rtd_temperature through Rpc Channel..')
+    const response: serverResponse =
+      await this.rpcChannel.callMethod(serviceReq, requestType, responseType)
+
+    if (response.error !== undefined) {
+      throw Error(response.error)
+    }
+
+    const successMsg: TempReading = response.content as TempReading
+    return successMsg.temp
+  }
 }
 
 export { AdcService }
