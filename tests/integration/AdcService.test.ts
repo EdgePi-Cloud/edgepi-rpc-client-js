@@ -87,17 +87,26 @@ describe('AdcService', ()=> {
         [ADCNum.ADC_2, DiffMode.DIFF_4, 'DiffMode.DIFF_4'],
         [ADCNum.ADC_2, DiffMode.DIFF_OFF, 'DiffMode.DIFF_OFF'],
     ])('should run continuous differentials', async (adcNum, diff, diff_str) => {
-        // config pulse mode
-        await adc.setConfig({conversionMode:ConvMode.PULSE})
+        // config continuous mode
+        await adc.setConfig({conversionMode:ConvMode.CONTINUOUS})
 
         // Select differential
         const response = await adc.selectDifferential(adcNum, diff)
         expect(response).toEqual(`Successfully selected ${diff_str}.`)
 
         // Get reading (if not diff_off)
-        if(diff !== DiffMode.DIFF_OFF && adcNum != ADCNum.ADC_2){
-            const voltage = await adc.singleSample()
-            expect(typeof voltage === 'number').toBe(true)
-        }
+        if(diff === DiffMode.DIFF_OFF) return
+        
+        // Start conversions
+        const startConvRep = await adc.startConversions(adcNum)
+            expect(startConvRep).toEqual('Successfully started conversions.')
+
+        // Read voltage
+        const voltage = await adc.readVoltage(adcNum)
+        expect(typeof voltage === 'number').toBe(true)
+
+        // Stop conversions
+        const stopConvRep = await adc.stopConversions(adcNum)
+        expect(stopConvRep).toEqual('Successfully stopped conversions.')
     })
 })
