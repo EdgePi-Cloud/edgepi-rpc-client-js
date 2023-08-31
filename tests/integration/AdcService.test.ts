@@ -8,8 +8,11 @@ jest.unmock('zeromq')
 describe('AdcService', ()=> {
     let adc: AdcService
 
-    beforeAll(() =>{
-        adc = new AdcService('tcp://localhost:5555');
+    beforeAll(async() =>{
+        adc = new AdcService('tcp://192.168.1.216:5555');
+        // set rtds off
+        await adc.setRtd(false, ADCNum.ADC_1)
+        await adc.setRtd(false, ADCNum.ADC_2)
         
     })
     
@@ -86,6 +89,8 @@ describe('AdcService', ()=> {
         [ADCNum.ADC_2, DiffMode.DIFF_4, 'DiffMode.DIFF_4'],
         [ADCNum.ADC_2, DiffMode.DIFF_OFF, 'DiffMode.DIFF_OFF'],
     ])('should run continuous differentials', async (adcNum, diff, diff_str) => {
+        
+
         // config continuous mode
         await adc.setConfig({conversionMode:ConvMode.CONTINUOUS})
 
@@ -108,4 +113,28 @@ describe('AdcService', ()=> {
         const stopConvRep = await adc.stopConversions(adcNum)
         expect(stopConvRep).toEqual('Successfully stopped conversions.')
     })
+
+    test.each([
+        [ADCNum.ADC_1],
+        [ADCNum.ADC_2,],
+
+    ])('should get rtd readings', async (adcNum) => {
+        // config continuous mode
+        await adc.setConfig({conversionMode:ConvMode.CONTINUOUS})
+
+        // set rtds on
+        await adc.setRtd(true, adcNum)
+
+        // Start conversions
+        await adc.startConversions(adcNum)
+ 
+        // Read temp
+        const temp = await adc.readRtdTemperature()
+        expect(typeof temp === 'number').toBe(true)
+
+        // Stop conversions
+        await adc.stopConversions(adcNum)
+    })
+
+
 })
