@@ -1,6 +1,5 @@
 import { AdcService } from "../../src"
-import { ADC1DataRate, ADC2DataRate, AnalogIn, FilterMode, ConvMode } from "../../src"
-import { ADCNum, DiffMode } from "../../src/services/AdcService/AdcEnums"
+import { ADC1DataRate, ADC2DataRate, AnalogIn, FilterMode, ConvMode, ADCNum, DiffMode } from "../../src"
 
 
 // Disable the manual mocks

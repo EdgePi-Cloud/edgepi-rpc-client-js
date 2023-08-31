@@ -8,7 +8,7 @@ import { DINPins } from './services/DinService/DinPins'
 import { DinService } from './services/DinService/DinService'
 import { RelayService } from './services/RelayService/RelayService'
 import { AdcService } from './services/AdcService/AdcService'
-import { AnalogIn, ADC1DataRate, ADC2DataRate,  FilterMode, ConvMode} from './services/AdcService/AdcEnums'
+import { AnalogIn, ADC1DataRate, ADC2DataRate, FilterMode, ConvMode, ADCNum, DiffMode} from './services/AdcService/AdcEnums'
 import { DacService } from './services/DacService/DacService'
 import { DACChannel } from './services/DacService/DacChannel'
 
@@ -29,6 +29,7 @@ export {
   FilterMode, 
   ConvMode,
   DacService,
-  DACChannel
-  
+  DACChannel,
+  ADCNum,
+  DiffMode
 }
