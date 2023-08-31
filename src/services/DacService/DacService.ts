@@ -50,7 +50,7 @@ class DacService {
     if (response.error !== undefined) {
       throw Error(response.error)
     }
- 
+
     const stateMsg: GainStateMsg = response.content as GainStateMsg
     return stateMsg.gainState
     

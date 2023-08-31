@@ -1,6 +1,6 @@
 {
   "name": "@edgepi-cloud/edgepi-rpc",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "author": "Isaac James",
   "main": "./lib/index.js",
   "license": "MIT",
@@ -13,7 +13,7 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@edgepi-cloud/rpc-protobuf": "^1.0.12",
+    "@edgepi-cloud/rpc-protobuf": "^1.0.16",
     "@types/node": "^20.4.2",
     "protobufjs": "^7.2.4",
     "protobufjs-cli": "^1.1.1",
