@@ -6,7 +6,7 @@ import { createConfigArgsList } from '../util/helpers'
 import type { SuccessMsg } from '../serviceTypes/successMsg'
 import type { TempReading, VoltageReadMsg, adc, adcConfig, diff } from './AdcTypes'
 
-const protoPckgPath = path.join(require.resolve('@edgepi-cloud/rpc-protobuf'), '..');
+const protoPckgPath = path.join(require.resolve('@edgepi-cloud/edgepi-rpc-protobuf'), '../edgepi_rpc_protos');
 
 /**
  * @constructor Adc class for calling EdgePi adc SDK methods through RPC

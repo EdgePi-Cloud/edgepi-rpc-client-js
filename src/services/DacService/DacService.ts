@@ -5,7 +5,7 @@ import type { serverResponse, serviceRequest } from '../../rpcChannel/ReqRepType
 import type { DACChannel, GainStateMsg, GetState, State, StateMsg } from './DacTypes'
 import { SuccessMsg } from '../serviceTypes/successMsg'
 
-const protoPckgPath = path.join(require.resolve('@edgepi-cloud/rpc-protobuf'), '..');
+const protoPckgPath = path.join(require.resolve('@edgepi-cloud/edgepi-rpc-protobuf'), '../edgepi_rpc_protos');
 
 /**
  * @constructor DacService class for calling EdgePi digital input SDK methods through RPC

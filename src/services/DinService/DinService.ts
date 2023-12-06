@@ -5,7 +5,7 @@ import type { serverResponse, serviceRequest } from '../../rpcChannel/ReqRepType
 import { DinPin } from './DinTypes'
 import { StateMsg } from '../serviceTypes/stateMsg'
 
-const protoPckgPath = path.join(require.resolve('@edgepi-cloud/rpc-protobuf'), '..');
+const protoPckgPath = path.join(require.resolve('@edgepi-cloud/edgepi-rpc-protobuf'), '../edgepi_rpc_protos');
 
 /**
  * @constructor DinService class for calling EdgePi digital input SDK methods through RPC
