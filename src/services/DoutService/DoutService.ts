@@ -6,7 +6,7 @@ import { DoutPin, DoutTriState } from './DoutTypes'
 import { SuccessMsg } from '../serviceTypes/successMsg'
 
 // Construct the path to the proto pacakge directory
-const protoPckgPath = path.join(require.resolve('@edgepi-cloud/rpc-protobuf'), '..');
+const protoPckgPath = path.join(require.resolve('@edgepi-cloud/edgepi-rpc-protobuf'), '../edgepi_rpc_protos');
 
   /**
    * @constructor DoutService class for calling EdgePi digital output SDK methods through RPC
