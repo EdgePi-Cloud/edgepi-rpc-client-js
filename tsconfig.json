@@ -13,5 +13,7 @@
     "outDir": "./lib"
   },
   "include": [
-    "./src"]
+    "./src",
+    "./jest.config.js"
+  ]
 }
