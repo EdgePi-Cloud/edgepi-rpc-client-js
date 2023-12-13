@@ -7,10 +7,19 @@ import type {
 } from "../../rpcChannel/ReqRepTypes";
 import { PWMConfig, PWM, Polarity } from "../PwmService/PwmTypes";
 import { createConfigArgsList } from "../util/helpers";
-import { SuccessMsg, GetDutyCycle, GetFrequency, GetPolarity, GetEnabled } from '../rpcServiceTypes';
+import {
+  SuccessMsg,
+  GetDutyCycle,
+  GetFrequency,
+  GetPolarity,
+  GetEnabled,
+} from "../rpcServiceTypes";
 import { Console } from "console";
 
-const protoPckgPath = path.join(require.resolve('@edgepi-cloud/edgepi-rpc-protobuf'), '../edgepi_rpc_protos');
+const protoPckgPath = path.join(
+  require.resolve("@edgepi-cloud/edgepi-rpc-protobuf"),
+  "../edgepi_rpc_protos"
+);
 
 const SUCCESS_MSG = "EdgePiRPC_PWM.SuccessMsg";
 const GET_FREQUENCY = "EdgePiRPC_PWM.GetFrequency";
@@ -42,8 +51,8 @@ class PWMService {
   }
 
   /**
- * @async Calls the PWM init_pwm SDK method through an RPC request
- */
+   * @async Calls the PWM init_pwm SDK method through an RPC request
+   */
   async initPwm(PWM: PWM): Promise<string> {
     const response = await this.PWMRequest("init_pwm", PWM, SUCCESS_MSG);
     return (response.content as SuccessMsg).content;
@@ -85,7 +94,11 @@ class PWMService {
    * @async Calls the PWM get_duty_cycle SDK method through an RPC request
    */
   async getDutyCycle(PWM: PWM): Promise<number> {
-    const response = await this.PWMRequest("get_duty_cycle", PWM, GET_DUTY_CYCLE);
+    const response = await this.PWMRequest(
+      "get_duty_cycle",
+      PWM,
+      GET_DUTY_CYCLE
+    );
     return (response.content as GetDutyCycle).dutyCycle;
   }
 
@@ -114,13 +127,14 @@ class PWMService {
     dutyCycle = undefined,
     polarity = undefined,
   }: PWMConfig): Promise<string> {
-    const requestType = this.serviceProtoRoot.lookupType(
-      CONFIG_TYPE
-    );
-    const responseType = this.serviceProtoRoot.lookupType(
-      SUCCESS_MSG
-    );
-    const argsList = createConfigArgsList({ pwmNum, frequency, dutyCycle, polarity });
+    const requestType = this.serviceProtoRoot.lookupType(CONFIG_TYPE);
+    const responseType = this.serviceProtoRoot.lookupType(SUCCESS_MSG);
+    const argsList = createConfigArgsList({
+      pwmNum,
+      frequency,
+      dutyCycle,
+      polarity,
+    });
 
     const response = await this.handlePWMRequest(
       requestType,
@@ -137,21 +151,14 @@ class PWMService {
   private async PWMRequest(
     methodName: string,
     pwmNum: PWM,
-    responseTypeName: string,
+    responseTypeName: string
   ): Promise<serverResponse> {
-    const requestType = this.serviceProtoRoot.lookupType(
-      PWM_TYPE
-    );
-    const responseType = this.serviceProtoRoot.lookupType(
-      responseTypeName
-    );
+    const requestType = this.serviceProtoRoot.lookupType(PWM_TYPE);
+    const responseType = this.serviceProtoRoot.lookupType(responseTypeName);
 
-    return await this.handlePWMRequest(
-      requestType,
-      responseType,
-      methodName,
-      { pwmNum }
-    );
+    return await this.handlePWMRequest(requestType, responseType, methodName, {
+      pwmNum,
+    });
   }
 
   /**
@@ -181,10 +188,13 @@ class PWMService {
       responseType
     );
 
-    if (!response || response.error !== undefined) {
-      throw new Error(response ? response.error : "Response is null or undefined.");
+    if (response && !response.error) {
+      return response;
+    } else {
+      throw new Error(
+        response ? response.error : "Response is null or undefined."
+      );
     }
-    return response;
   }
 }
 
