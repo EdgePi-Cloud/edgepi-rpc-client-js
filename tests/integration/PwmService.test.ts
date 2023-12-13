@@ -17,20 +17,20 @@ describe('PwmService', () => {
         0: 'PWMPins.PWM1',
         1: 'PWMPins.PWM2'
     }
-    
+
     test.each([
-        [{pwmNum: PWMPins.PWM1, frequency: 1000, dutyCycle: 1, polarity: Polarity.NORMAL}],
-        [{pwmNum: PWMPins.PWM2, frequency: 1000, dutyCycle: 1, polarity: Polarity.NORMAL}]
+        [{ pwmNum: PWMPins.PWM1, frequency: 1000, dutyCycle: 1, polarity: Polarity.NORMAL }],
+        [{ pwmNum: PWMPins.PWM2, frequency: 1000, dutyCycle: 1, polarity: Polarity.NORMAL }]
     ])('Call setConfig and check configurations', async (args) => {
         const response = await pwm.setConfig(args)
         expect(response).toEqual('Successfully applied pwm configurations.')
 
         const frequency = await pwm.getFrequency(args.pwmNum)
-        expect(typeof frequency).toBe('number')
+        expect(Number.isFinite(frequency)).toBe(true)
         expect(frequency).toEqual(args.frequency)
 
         const dutyCycle = await pwm.getDutyCycle(args.pwmNum)
-        expect(typeof dutyCycle).toBe('number')
+        expect(Number.isFinite(dutyCycle)).toBe(true)
         expect(dutyCycle).toEqual(args.dutyCycle)
 
         const polarity = await pwm.getPolarity(args.pwmNum)
@@ -46,7 +46,7 @@ describe('PwmService', () => {
         expect(response).toEqual(`Successfully enabled ${enumNames[PwmPins]}.`)
 
         const enabled = await pwm.getEnabled(PwmPins)
-        expect(typeof enabled).toBe('boolean')
+        expect(Boolean(enabled)).toBe(true)
         expect(enabled).toEqual(true)
     })
 
@@ -58,7 +58,7 @@ describe('PwmService', () => {
         expect(response).toEqual(`Successfully disabled ${enumNames[PwmPins]}.`)
 
         const enabled = await pwm.getEnabled(PwmPins)
-        expect(typeof enabled).toBe('boolean')
+        expect(Boolean(enabled)).toBe(false)
         expect(enabled).toEqual(false)
     })
 
