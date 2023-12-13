@@ -2,10 +2,9 @@ import * as protobuf from 'protobufjs'
 import path from 'path'
 import { RpcChannel } from '../../rpcChannel/RpcChannel'
 import type { serverResponse, serviceRequest } from '../../rpcChannel/ReqRepTypes'
-import { SuccessMsg } from '../serviceTypes/successMsg';
-import { StateMsg } from '../serviceTypes/stateMsg';
+import { SuccessMsg, StateMsg } from '../rpcServiceTypes'
 
-const protoPckgPath = path.join(require.resolve('@edgepi-cloud/rpc-protobuf'), '..');
+const protoPckgPath = path.join(require.resolve('@edgepi-cloud/edgepi-rpc-protobuf'), '../edgepi_rpc_protos');
 
 /**
  * @constructor RelayService class for calling EdgePi LED SDK methods through RPC

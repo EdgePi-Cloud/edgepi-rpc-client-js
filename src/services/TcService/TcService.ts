@@ -4,8 +4,7 @@ import { RpcChannel } from '../../rpcChannel/RpcChannel'
 import type { serverResponse, serviceRequest } from '../../rpcChannel/ReqRepTypes'
 import type { TempReading } from './tcTypes'
 
-const protoPckgPath = path.join(require.resolve('@edgepi-cloud/rpc-protobuf'), '..')
-
+const protoPckgPath = path.join(require.resolve('@edgepi-cloud/edgepi-rpc-protobuf'), '../edgepi_rpc_protos');
   /**
    * @constructor TcService class for calling EdgePi thermocouple SDK methods through RPC
    * @param serverEndpoint String representation of the RPC Server's endpoint

@@ -5,8 +5,7 @@ import type {
   convMode, filterMode, adcNum, diffMode
 } from './AdcTypes'
 
-const protoPckgPath = path.join(require.resolve('@edgepi-cloud/rpc-protobuf'), '..')
-
+const protoPckgPath = path.join(require.resolve('@edgepi-cloud/edgepi-rpc-protobuf'), '../edgepi_rpc_protos');
 const root = protobuf.loadSync(path.join(protoPckgPath, 'adc.proto'))
 
 export const AnalogIn = root.lookupEnum('AnalogIn').values as unknown as analogIn
