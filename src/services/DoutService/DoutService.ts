@@ -3,7 +3,7 @@ import path from 'path'
 import { RpcChannel } from '../../rpcChannel/RpcChannel'
 import type { serverResponse, serviceRequest } from '../../rpcChannel/ReqRepTypes'
 import { DoutPin, DoutTriState } from './DoutTypes'
-import { SuccessMsg } from '../serviceTypes/successMsg'
+import { SuccessMsg } from '../rpcServiceTypes'
 
 // Construct the path to the proto pacakge directory
 const protoPckgPath = path.join(require.resolve('@edgepi-cloud/edgepi-rpc-protobuf'), '../edgepi_rpc_protos');

@@ -11,6 +11,8 @@ import { AdcService } from './services/AdcService/AdcService'
 import { AnalogIn, ADC1DataRate, ADC2DataRate, FilterMode, ConvMode, ADCNum, DiffMode} from './services/AdcService/AdcEnums'
 import { DacService } from './services/DacService/DacService'
 import { DACChannel } from './services/DacService/DacChannel'
+import { PWMService } from './services/PwmService/PwmService'
+import { PWMPins, Polarity } from './services/PwmService/PwmEnums'
 
 export {
   TcService,
@@ -24,12 +26,15 @@ export {
   RelayService,
   AdcService,
   AnalogIn,
-  ADC1DataRate, 
-  ADC2DataRate,  
-  FilterMode, 
+  ADC1DataRate,
+  ADC2DataRate,
+  FilterMode,
   ConvMode,
   DacService,
   DACChannel,
   ADCNum,
-  DiffMode
+  DiffMode,
+  PWMService,
+  PWMPins,
+  Polarity
 }

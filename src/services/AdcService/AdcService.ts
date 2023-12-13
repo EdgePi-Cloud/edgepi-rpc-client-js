@@ -3,7 +3,7 @@ import path from 'path'
 import { RpcChannel } from '../../rpcChannel/RpcChannel'
 import type { serverResponse, serviceRequest } from '../../rpcChannel/ReqRepTypes'
 import { createConfigArgsList } from '../util/helpers'
-import type { SuccessMsg } from '../serviceTypes/successMsg'
+import type { SuccessMsg } from '../rpcServiceTypes'
 import type { TempReading, VoltageReadMsg, adc, adcConfig, diff } from './AdcTypes'
 
 const protoPckgPath = path.join(require.resolve('@edgepi-cloud/edgepi-rpc-protobuf'), '../edgepi_rpc_protos');
@@ -56,6 +56,7 @@ class AdcService {
       adc_1AnalogIn, adc_1DataRate, adc_2AnalogIn, adc_2DataRate,
       filterMode, conversionMode, overrideUpdatesValidation
     }
+
     const argsList = createConfigArgsList(args)
 
     const serviceReq: serviceRequest = {
@@ -66,6 +67,7 @@ class AdcService {
         confArg: argsList
       }
     }
+
 
     // Call method through rpc
     console.info('Calling ADC setConfig through Rpc Channel with the following configurations: {' +
