@@ -12,6 +12,14 @@ import { Console } from "console";
 
 const protoPckgPath = path.join(require.resolve('@edgepi-cloud/edgepi-rpc-protobuf'), '../edgepi_rpc_protos');
 
+const SUCCESS_MSG = "EdgePiRPC_PWM.SuccessMsg";
+const GET_FREQUENCY = "EdgePiRPC_PWM.GetFrequency";
+const GET_DUTY_CYCLE = "EdgePiRPC_PWM.GetDutyCycle";
+const GET_POLARITY = "EdgePiRPC_PWM.GetPolarity";
+const GET_ENABLED = "EdgePiRPC_PWM.GetEnabled";
+const PWM_TYPE = "EdgePiRPC_PWM.PWM";
+const CONFIG_TYPE = "EdgePiRPC_PWM.Config";
+
 /**
  * @constructor PWM class for calling EdgePi PWM SDK methods through RPC
  */
@@ -37,7 +45,7 @@ class PWMService {
  * @async Calls the PWM init_pwm SDK method through an RPC request
  */
   async initPwm(PWM: PWM): Promise<string> {
-    const response = await this.PWMRequest("init_pwm", PWM, "EdgePiRPC_PWM.SuccessMsg");
+    const response = await this.PWMRequest("init_pwm", PWM, SUCCESS_MSG);
     return (response.content as SuccessMsg).content;
   }
 
@@ -45,7 +53,7 @@ class PWMService {
    * @async Calls the PWM enable SDK method through an RPC request
    */
   async enable(PWM: PWM): Promise<string> {
-    const response = await this.PWMRequest("enable", PWM, "EdgePiRPC_PWM.SuccessMsg");
+    const response = await this.PWMRequest("enable", PWM, SUCCESS_MSG);
     return (response.content as SuccessMsg).content;
   }
 
@@ -53,7 +61,7 @@ class PWMService {
    * @async Calls the PWM disable SDK method through an RPC request
    */
   async disable(PWM: PWM): Promise<string> {
-    const response = await this.PWMRequest("disable", PWM, "EdgePiRPC_PWM.SuccessMsg");
+    const response = await this.PWMRequest("disable", PWM, SUCCESS_MSG);
     return (response.content as SuccessMsg).content;
   }
 
@@ -61,7 +69,7 @@ class PWMService {
    * @async Calls the PWM close SDK method through an RPC request
    */
   async close(PWM: PWM): Promise<string> {
-    const response = await this.PWMRequest("close", PWM, "EdgePiRPC_PWM.SuccessMsg");
+    const response = await this.PWMRequest("close", PWM, SUCCESS_MSG);
     return (response.content as SuccessMsg).content;
   }
 
@@ -69,7 +77,7 @@ class PWMService {
    * @async Calls the PWM frequency SDK method through an RPC request
    */
   async getFrequency(PWM: PWM): Promise<number> {
-    const response = await this.PWMRequest("get_frequency", PWM, "EdgePiRPC_PWM.GetFrequency");
+    const response = await this.PWMRequest("get_frequency", PWM, GET_FREQUENCY);
     return (response.content as GetFrequency).frequency;
   }
 
@@ -77,7 +85,7 @@ class PWMService {
    * @async Calls the PWM get_duty_cycle SDK method through an RPC request
    */
   async getDutyCycle(PWM: PWM): Promise<number> {
-    const response = await this.PWMRequest("get_duty_cycle", PWM, "EdgePiRPC_PWM.GetDutyCycle");
+    const response = await this.PWMRequest("get_duty_cycle", PWM, GET_DUTY_CYCLE);
     return (response.content as GetDutyCycle).dutyCycle;
   }
 
@@ -85,7 +93,7 @@ class PWMService {
    * @async Calls the PWM get_polarity SDK method through an RPC request
    */
   async getPolarity(PWM: PWM): Promise<Polarity> {
-    const response = await this.PWMRequest("get_polarity", PWM, "EdgePiRPC_PWM.GetPolarity");
+    const response = await this.PWMRequest("get_polarity", PWM, GET_POLARITY);
     return (response.content as GetPolarity).polarity;
   }
 
@@ -93,7 +101,7 @@ class PWMService {
    * @async Calls the PWM get_enabled SDK method through an RPC request
    */
   async getEnabled(PWM: PWM): Promise<boolean> {
-    const response = await this.PWMRequest("get_enabled", PWM, "EdgePiRPC_PWM.GetEnabled");
+    const response = await this.PWMRequest("get_enabled", PWM, GET_ENABLED);
     return (response.content as GetEnabled).enabled;
   }
 
@@ -107,10 +115,10 @@ class PWMService {
     polarity = undefined,
   }: PWMConfig): Promise<string> {
     const requestType = this.serviceProtoRoot.lookupType(
-      "EdgePiRPC_PWM.Config"
+      CONFIG_TYPE
     );
     const responseType = this.serviceProtoRoot.lookupType(
-      "EdgePiRPC_PWM.SuccessMsg"
+      SUCCESS_MSG
     );
     const argsList = createConfigArgsList({ pwmNum, frequency, dutyCycle, polarity });
 
@@ -132,7 +140,7 @@ class PWMService {
     responseTypeName: string,
   ): Promise<serverResponse> {
     const requestType = this.serviceProtoRoot.lookupType(
-      "EdgePiRPC_PWM.PWM"
+      PWM_TYPE
     );
     const responseType = this.serviceProtoRoot.lookupType(
       responseTypeName
@@ -173,8 +181,8 @@ class PWMService {
       responseType
     );
 
-    if (response.error !== undefined) {
-      throw Error(response.error);
+    if (!response || response.error !== undefined) {
+      throw new Error(response ? response.error : "Response is null or undefined.");
     }
     return response;
   }
