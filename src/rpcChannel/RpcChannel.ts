@@ -19,13 +19,13 @@ class RpcChannel {
     this.socket.connect(this.socket_endpoint)
     this.rpcRequestType = rpcProtoRoot.lookupType('rpc.RpcRequest')
     this.rpcResponseType = rpcProtoRoot.lookupType('rpc.RpcResponse')
-    console.info("RpcChannel intialized on", this.socket_endpoint)
+    console.info('RpcChannel intialized on', this.socket_endpoint)
   }
 
   /**
    * Wraps client message in an Rpc message
-   * @param serviceReq 
-   * @param requestType 
+   * @param serviceReq
+   * @param requestType
    * @returns RpcRequest obect
    */
   createRpcRequest (serviceReq: serviceRequest, requestType: protobuf.Type): RpcRequest {
@@ -46,25 +46,25 @@ class RpcChannel {
 
   /**
    * @async Serializes the Rpc Request and sends it over a socket to server
-   * @param rpcRequest 
+   * @param rpcRequest
    */
   async sendRpcRequest (rpcRequest: protobuf.Message): Promise<void> {
     // serialize rpc request
     // const rpc_request_type = this.proto_root.lookupType("rpc.RpcRequest");
     const rpcRequestBuff = this.rpcRequestType.encode(rpcRequest).finish()
     // send over socket
-    console.debug("Sending request to server")
+    console.debug('Sending request to server')
     await this.socket.send(rpcRequestBuff)
   }
 
   /**
    * @async Receives the rpc response from server and decodes it
-   * @returns 
+   * @returns
    */
   async getRpcResponse (): Promise<RpcResponse> {
     // get rpc response from server
     const [rpcResponseData] = await this.socket.receive()
-    console.debug("Response from server received")
+    console.debug('Response from server received')
     // decode
     const rpcResponse: RpcResponse = this.rpcResponseType.decode(rpcResponseData) as RpcResponse
     return rpcResponse
@@ -72,8 +72,8 @@ class RpcChannel {
 
   /**
    * Deserializes the client message within the Rpc Response message and creates a response object
-   * @param responseType 
-   * @param rpcResponse 
+   * @param responseType
+   * @param rpcResponse
    * @returns server response object
    */
   createServerResponse (responseType: protobuf.Type, rpcResponse: RpcResponse): serverResponse {
@@ -96,9 +96,9 @@ class RpcChannel {
 
   /**
    * Calls an SDK method through RPC from a given service request object and the expected request/reponse types
-   * @param serviceReq 
-   * @param requestType 
-   * @param responseType 
+   * @param serviceReq
+   * @param requestType
+   * @param responseType
    * @returns server response object
    */
   async callMethod (
