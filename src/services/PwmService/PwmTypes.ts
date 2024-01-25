@@ -1,26 +1,34 @@
 export enum PWM {
-    PWM1,
-    PWM2,
+  PWM1,
+  PWM2,
 }
 
 export interface PwmMap {
-    PWM1: PWM
-    PWM2: PWM
+  PWM1: PWM
+  PWM2: PWM
 }
 
 export enum Polarity {
-    NORMAL,
-    INVERSED,
+  NORMAL,
+  INVERSED,
 }
 
 export interface PolarityMap {
-    NORMAL: Polarity
-    INVERSED: Polarity
+  NORMAL: Polarity
+  INVERSED: Polarity
 }
 
 export interface PWMConfig {
-    pwmNum?: PWM
-    frequency?: number | undefined
-    dutyCycle?: number | undefined
-    polarity?: Polarity | undefined
+  pwmNum?: PWM
+  frequency?: number | undefined
+  dutyCycle?: number | undefined
+  polarity?: Polarity | undefined
+}
+
+export interface PWMSettingsType {
+  pwmNum?: PWM
+  frequency?: number | undefined
+  dutyCycle?: number | undefined
+  polarity?: Polarity | undefined
+  enabled?: boolean | undefined
 }
