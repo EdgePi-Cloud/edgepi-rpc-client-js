@@ -1,22 +1,22 @@
 {
   "name": "@edgepi-cloud/edgepi-rpc",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "author": "Isaac James",
   "main": "./lib/index.js",
   "license": "MIT",
   "scripts": {
     "test": "jest",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint --max-warnings=0 .",
-    "lint:fix": "eslint --max-warnings=0 --fix .",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix .",
     "build": "tsc -p tsconfig.json",
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@edgepi-cloud/edgepi-rpc-protobuf": "^1.0.24",
-    "@types/node": "^20.4.2",
-    "protobufjs": "^7.2.4",
-    "protobufjs-cli": "^1.1.1",
+    "@edgepi-cloud/edgepi-rpc-protobuf": "^1.0.25",
+    "@types/node": "^20.11.6",
+    "protobufjs": "^7.2.6",
+    "protobufjs-cli": "^1.1.2",
     "zeromq": "^6.0.0-beta.19"
   },
   "devDependencies": {

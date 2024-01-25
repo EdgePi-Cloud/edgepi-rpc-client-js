@@ -1,5 +1,5 @@
+.github/
 # node modules
 node_modules
-
 # eslint
 .eslintrc.json
