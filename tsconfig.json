@@ -12,6 +12,5 @@
     "strict": true /* Enable all strict type-checking options. */,
     "outDir": "./lib"
   },
-  "include": ["./src", "./jest.config.js"],
-  "exclude": ["./__mocks__/"]
+  "include": ["./src", "./jest.config.js"]
 }
